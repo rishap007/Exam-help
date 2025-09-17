@@ -1,14 +1,14 @@
 package com.eduplatform.model.enums;
 
-public enum CourseStatus {
+public enum SubmissionStatus {
     DRAFT("Draft"),
-    PUBLISHED("Published"),
-    ARCHIVED("Archived"),
-    SUSPENDED("Suspended");
+    SUBMITTED("Submitted"),
+    GRADED("Graded"),
+    RETURNED("Returned for Revision");
 
     private final String displayName;
 
-    CourseStatus(String displayName) {
+    SubmissionStatus(String displayName) {
         this.displayName = displayName;
     }
 
