@@ -1,98 +1,11 @@
-# ===========================================
-# SPRING BOOT MULTI-STAGE DOCKERFILE
-# Development and Production builds
-# ===========================================
+# Use a base image that includes a compatible JDK and Gradle for development.
+FROM gradle:8.5-jdk17-alpine
 
-# Build stage
-FROM gradle:8.5-jdk17-alpine AS build
-
-# Set working directory
+# Set the working directory inside the container.
 WORKDIR /app
 
-# Copy Gradle files first (for better caching)
-COPY build.gradle settings.gradle ./
-COPY gradle ./gradle
-
-# Download dependencies (cached layer)
-RUN gradle dependencies --no-daemon
-
-# Copy source code
-COPY src ./src
-
-# Build application
-RUN gradle clean build -x test --no-daemon
-
-# Runtime base stage
-FROM eclipse-temurin:17-jre-alpine AS base
-
-# Install curl for health checks
-RUN apk add --no-cache curl
-
-# Create app user for security
-RUN addgroup -g 1001 -S appgroup && \
-    adduser -S appuser -G appgroup -u 1001
-
-# Set working directory
-WORKDIR /app
-
-# Create necessary directories
-RUN mkdir -p logs uploads && \
-    chown -R appuser:appgroup /app
-
-# Development stage
-FROM base AS development
-
-# Install development tools
-RUN apk add --no-cache bash vim
-
-# Copy built JAR from build stage
-COPY --from=build /app/build/libs/*.jar app.jar
-
-# Change ownership
-RUN chown appuser:appgroup app.jar
-
-# Switch to non-root user
-USER appuser
-
-# Expose port
-EXPOSE 8080 5005
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/api/v1/actuator/health || exit 1
-
-# Development startup with debugging enabled
-CMD ["java", \
-     "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", \
-     "-Dspring.profiles.active=development", \
-     "-Dspring.devtools.restart.enabled=true", \
-     "-Dspring.devtools.livereload.enabled=true", \
-     "-jar", "app.jar"]
-
-# Production stage
-FROM base AS production
-
-# Copy built JAR from build stage
-COPY --from=build /app/build/libs/*.jar app.jar
-
-# Change ownership
-RUN chown appuser:appgroup app.jar
-
-# Switch to non-root user
-USER appuser
-
-# Expose port
-EXPOSE 8080
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/api/v1/actuator/health || exit 1
-
-# Production startup
-CMD ["java", \
-     "-XX:+UseContainerSupport", \
-     "-XX:MaxRAMPercentage=75.0", \
-     "-XX:+UseG1GC", \
-     "-XX:+UseStringDeduplication", \
-     "-Dspring.profiles.active=production", \
-     "-jar", "app.jar"]
+# The default command to run when the container starts.
+# We use "./gradlew bootRun" which starts the application in-place.
+# This works with the volume mount in docker-compose.yml and enables
+# Spring Boot DevTools for automatic hot-reloading when you change a file.
+CMD ["./gradlew", "bootRun"]

@@ -4,7 +4,7 @@ import com.eduplatform.model.base.BaseEntity;
 import com.eduplatform.model.enums.NotificationType;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 /**

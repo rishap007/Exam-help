@@ -1,6 +1,5 @@
-version: '3.8'
-
 # Full Dev Environment (EduPlatform)
+# The top-level 'version' key has been removed as it is obsolete.
 
 services:
   # PostgreSQL Database
@@ -9,9 +8,9 @@ services:
     container_name: eduplatform_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: eduplatform_db
+      POSTGRES_USER: eduplatform_user
+      POSTGRES_PASSWORD: eduplatform_password
     ports:
       - "5432:5432"
     volumes:
@@ -19,7 +18,7 @@ services:
     networks:
       - eduplatform_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U eduplatform_user -d eduplatform_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -41,34 +40,36 @@ services:
       timeout: 3s
       retries: 5
 
-  # Spring Boot Backend (placeholder - code later)
+  # Spring Boot Backend
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-      target: development
     container_name: eduplatform_backend
     restart: unless-stopped
     environment:
+      # Increased timeout for first-time Gradle download
+      - GRADLE_OPTS=-Dorg.gradle.internal.http.socketTimeout=60000
+      # Database Configuration - FIXED: Added missing variables
       - SPRING_PROFILES_ACTIVE=development
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=eduplatform_db
+      - DB_USERNAME=eduplatform_user
+      - DB_PASSWORD=eduplatform_password
+      # Redis Configuration
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - JWT_SECRET=${JWT_SECRET}
-      - LOG_LEVEL=${LOG_LEVEL}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_REGION=${AWS_REGION}
-      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      # MinIO/S3 Configuration
       - S3_ENDPOINT=http://minio:9000
+      - AWS_ACCESS_KEY_ID=minioadmin
+      - AWS_SECRET_ACCESS_KEY=minioadmin123
+      # Email Configuration
       - SMTP_HOST=mailpit
       - SMTP_PORT=1025
     ports:
       - "8080:8080"
+      - "5005:5005" # Exposing port for remote debugging
     volumes:
       - ./backend:/app
     depends_on:
@@ -83,61 +84,14 @@ services:
     networks:
       - eduplatform_network
 
-  # React Frontend
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-      target: development
-    container_name: eduplatform_frontend
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_API_BASE_URL=http://localhost:8080/api/v1
-      - REACT_APP_WEBSOCKET_URL=ws://localhost:8080/ws
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    depends_on:
-      - backend
-    networks:
-      - eduplatform_network
-
-  # AI Service (Python FastAPI placeholder)
-  ai-service:
-    build:
-      context: ./ai-service
-      dockerfile: Dockerfile.dev
-      target: development
-    container_name: eduplatform_ai
-    restart: unless-stopped
-    environment:
-      - ENVIRONMENT=development
-      - DATABASE_URL=${DATABASE_URL}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - HUGGINGFACE_API_TOKEN=${HUGGINGFACE_API_TOKEN}
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./ai-service:/app
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - eduplatform_network
-
   # MinIO (S3 replacement)
   minio:
     image: minio/minio:latest
     container_name: eduplatform_minio
     restart: unless-stopped
     environment:
-      MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID}
-      MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY}
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
     ports:
       - "9000:9000" # S3 API
       - "9001:9001" # Web UI
@@ -184,7 +138,7 @@ services:
     container_name: eduplatform_redis_admin
     restart: unless-stopped
     environment:
-      REDIS_HOSTS: local:redis:6379
+      - REDIS_HOST=redis
     ports:
       - "8081:8081"
     depends_on:

@@ -1,4 +1,3 @@
-
 // ===========================================
 // LESSON ENTITY
 // ===========================================
@@ -10,7 +9,7 @@ import com.eduplatform.model.enums.LessonType;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;

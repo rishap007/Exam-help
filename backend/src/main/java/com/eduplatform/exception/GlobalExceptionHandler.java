@@ -2,11 +2,10 @@
 // GLOBAL EXCEPTION HANDLING CONFIGURATION
 // ===========================================
 
-package com.eduplatform.config.exception;
+package com.eduplatform.exception;
 
 import com.eduplatform.dto.response.ApiResponse;
 import com.eduplatform.dto.response.ErrorDetails;
-import com.eduplatform.exception.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +27,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-COURSE REPOSITORY
+
 // ===========================================
 
 package com.eduplatform.repository;

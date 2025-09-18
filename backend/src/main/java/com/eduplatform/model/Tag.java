@@ -3,7 +3,7 @@ package com.eduplatform.model;
 import com.eduplatform.model.base.TimestampedEntity;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -5,7 +5,7 @@ import com.eduplatform.model.base.BaseEntity;
 import com.eduplatform.model.enums.ProgressStatus;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

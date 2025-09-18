@@ -10,7 +10,7 @@ import com.eduplatform.model.enums.CourseStatus;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;

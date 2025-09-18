@@ -3,7 +3,7 @@ package com.eduplatform.model;
 import com.eduplatform.model.base.BaseEntity;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,7 +57,9 @@ public class Assignment extends BaseEntity {
     private Lesson lesson;
 
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<AssignmentSubmission> submissions = new HashSet<>();
+
 
     // Helper methods
     public boolean isOverdue() {
