@@ -8,12 +8,13 @@ import com.eduplatform.model.base.BaseEntity;
 import com.eduplatform.model.enums.UserRole;
 import com.eduplatform.model.enums.UserStatus;
 import lombok.*;
-import org.hibernate.annotations.Where;
+// import org.hibernate.annotations.Where;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.SQLRestriction;
 
 /**
  * User Entity
@@ -30,7 +31,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "deleted_at IS NULL")
+@SQLRestriction("deleted_at IS NULL")
 public class User extends BaseEntity {
 
     @Column(name = "email", unique = true, nullable = false, length = 255)
@@ -102,12 +103,15 @@ public class User extends BaseEntity {
 
     // Relationships
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Enrollment> enrollments = new HashSet<>();
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Course> instructedCourses = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<UserProgress> progressRecords = new HashSet<>();
 
     // Helper methods

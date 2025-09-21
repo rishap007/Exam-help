@@ -1,6 +1,6 @@
 # ==========================================
-# SPRING BOOT APPLICATION CONFIGURATION
-# Base configuration for all environments
+# EDUPLATFORM BACKEND - FIXED CONFIGURATION
+# This fixes environment variable resolution issues
 # ==========================================
 
 spring:
@@ -11,11 +11,12 @@ spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:development}
 
-  # Database Configuration
+  # ===== DATABASE CONFIGURATION - FIXED =====
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:eduplatform_db}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:password}
+    # Fixed: Added default values for all environment variables
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:eduplatform_dev}
+    username: ${DB_USERNAME:eduplatform_user}
+    password: ${DB_PASSWORD:your_secure_password_here}
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 30000
@@ -25,32 +26,39 @@ spring:
       minimum-idle: 5
       pool-name: EduPlatformHikariPool
 
-  # JPA Configuration
-jpa:
-  database-platform: org.hibernate.dialect.PostgreSQLDialect
-  hibernate:
-    ddl-auto: update
-    naming:
-      physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-  show-sql: false
-  properties:
+  # ===== JPA CONFIGURATION =====
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      format_sql: true
-      jdbc:
-        batch_size: 25
-      order_inserts: true
-      order_updates: true
+      ddl-auto: validate # Let Flyway handle schema changes
+      naming:
+        # Fixed: Correct naming strategy for Spring Boot 3
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoreNamingStrategy
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 25
+        order_inserts: true
+        order_updates: true
+        connection:
+          provider_disables_autocommit: true
 
-  # Flyway Migration - Disabled initially for easier development
+  # ===== FLYWAY MIGRATION - FIXED =====
   flyway:
-    enabled: false # Change to true when you have migration files
+    enabled: true
     baseline-on-migrate: true
     locations: classpath:db/migration
+    # Fixed: Explicit Flyway database configuration
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:eduplatform_dev}
+    user: ${DB_USERNAME:eduplatform_user}
+    password: ${DB_PASSWORD:your_secure_password_here}
 
-  # Redis Configuration
+  # ===== REDIS CONFIGURATION - FIXED =====
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
+      host: ${REDIS_HOST:redis}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:}
       timeout: 2000ms
@@ -61,7 +69,7 @@ jpa:
           max-idle: 8
           min-idle: 0
 
-  # Cache Configuration
+  # ===== CACHE CONFIGURATION =====
   cache:
     type: redis
     redis:
@@ -69,94 +77,307 @@ jpa:
       key-prefix: "eduplatform::"
       cache-null-values: false
 
-  # Jackson Configuration
+  # ===== JACKSON JSON CONFIGURATION =====
   jackson:
     serialization:
       write-dates-as-timestamps: false
+      indent-output: true
+    deserialization:
+      fail-on-unknown-properties: false
     time-zone: UTC
     date-format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 
-  # File Upload Configuration
+  # ===== WEB CONFIGURATION =====
+  web:
+    locale: en_US
+    locale-resolver: fixed
+
+  # ===== FILE UPLOAD CONFIGURATION =====
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 50MB
       enabled: true
+      file-size-threshold: 2KB
 
-  # Mail Configuration
+  # ===== MAIL CONFIGURATION - FIXED =====
   mail:
-    host: ${SMTP_HOST:localhost}
+    host: ${SMTP_HOST:mailpit}
     port: ${SMTP_PORT:1025}
     username: ${SMTP_USERNAME:}
     password: ${SMTP_PASSWORD:}
     properties:
       mail:
         smtp:
-          auth: false # Set to false for development with Mailpit
+          auth: false
           starttls:
-            enable: false # Set to false for development
+            enable: false
+          timeout: 8000
+          connectiontimeout: 8000
+          writetimeout: 8000
 
-# Server Configuration
+  # ===== SECURITY CONFIGURATION =====
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:http://localhost:8080}
+
+# ===== SERVER CONFIGURATION =====
 server:
   port: ${SERVER_PORT:8080}
   servlet:
     context-path: /api/v1
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
   error:
     include-message: always
     include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
 
-# Management/Actuator Configuration
+# ===== MANAGEMENT/ACTUATOR CONFIGURATION =====
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: health,info,metrics,prometheus,flyway,env
       base-path: /actuator
   endpoint:
     health:
       show-details: always
       show-components: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  health:
+    redis:
+      enabled: true
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  info:
+    env:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      enabled: true
 
-# Application Specific Configuration
+# ===== LOGGING CONFIGURATION =====
+logging:
+  level:
+    com.eduplatform: ${LOG_LEVEL:DEBUG}
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: ${SQL_LOG_LEVEL:INFO}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${SQL_LOG_LEVEL:INFO}
+    org.flywaydb: INFO
+    org.springframework.data.redis: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/eduplatform-backend.log
+    max-size: 100MB
+    max-history: 30
+
+# ===== APPLICATION SPECIFIC CONFIGURATION =====
 app:
+  # JWT Configuration
   jwt:
-    secret: ${JWT_SECRET:mySecretKey123456789012345678901234567890123456789012345678901234567890}
-    expiration-ms: ${JWT_EXPIRATION:86400000} # 24 hours
+    secret: ${JWT_SECRET:your-secret-key-here-must-be-at-least-256-bits-long-for-security-purposes}
+    expiration-ms: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION:604800000} # 7 days in milliseconds
+    issuer: ${JWT_ISSUER:eduplatform}
+    
+  # File Upload Configuration
+  upload:
+    directory: ${UPLOAD_DIR:./uploads}
+    max-file-size: ${MAX_FILE_SIZE:10485760} # 10MB
+    allowed-extensions: jpg,jpeg,png,gif,pdf,doc,docx,txt,mp4,mov,avi
+    
+  # CORS Configuration
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:80}
+    allowed-methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Content-Disposition"
+    allow-credentials: true
+    max-age: 3600
+    
+  # API Configuration
+  api:
+    version: v1
+    base-path: /api/v1
+    rate-limit:
+      enabled: true
+      requests-per-minute: 100
+      
+  # Email Configuration
+  email:
+    from: ${EMAIL_FROM:noreply@eduplatform.com}
+    from-name: ${EMAIL_FROM_NAME:EduPlatform}
+    
+  # Pagination Configuration
+  pagination:
+    default-size: 20
+    max-size: 100
+    
+  # File Configuration
+  file:
+    max-profile-picture-size: ${MAX_PROFILE_PICTURE_SIZE:2097152} # 2MB
+    max-course-material-size: ${MAX_COURSE_MATERIAL_SIZE:10485760} # 10MB
+
+# ===== MINIO CONFIGURATION =====
+minio:
+  endpoint: ${S3_ENDPOINT:http://minio:9000}
+  access-key: ${AWS_ACCESS_KEY_ID:minioadmin}
+  secret-key: ${AWS_SECRET_ACCESS_KEY:minioadmin}
+  bucket:
+    name: ${MINIO_BUCKET_NAME:eduplatform-uploads}
 
 ---
-# Development Environment Configuration
+# ===== DEVELOPMENT ENVIRONMENT =====
 spring:
   config:
     activate:
       on-profile: development
+      
+  # Development Database Settings
+  datasource:
+    url: jdbc:postgresql://postgres:5432/eduplatform_dev
+    username: eduplatform_user
+    password: your_secure_password_here
+    
+  # Development JPA Settings
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update # Ensure this is set for development
+    properties:
+      hibernate:
+        format_sql: true
+        
+  # Development Cache (use Redis but with shorter TTL)
+  cache:
+    redis:
+      time-to-live: 300s # 5 minutes in development
+      
+  # Development Mail (Mailpit)
+  mail:
+    host: mailpit
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
 
+# Development Logging (more verbose)
+logging:
+  level:
+    com.eduplatform: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.data.redis: DEBUG
+    
+# Development CORS (more permissive)
+app:
+  cors:
+    allowed-origins: "*"
+    
+# Development JWT (longer expiration for convenience)
+  jwt:
+    expiration-ms: 86400000 # 24 hours
+    
 ---
-# Production Environment Configuration
+# ===== TEST ENVIRONMENT =====
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  # Test Database (H2 in-memory)
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    
+  # Test JPA Settings
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+      
+  # Disable Flyway for tests (use JPA to create schema)
+  flyway:
+    enabled: false
+    
+  # Test Cache (simple in-memory)
+  cache:
+    type: simple
+    
+  # Test Mail (no-op)
+  mail:
+    host: localhost
+    port: 25
+
+# Test Logging (minimal)
+logging:
+  level:
+    com.eduplatform: INFO
+    org.hibernate.SQL: WARN
+    org.springframework.web: WARN
+    
+---
+# ===== PRODUCTION ENVIRONMENT =====
 spring:
   config:
     activate:
       on-profile: production
+
+  # Production JPA Settings (optimized)
   jpa:
     show-sql: false
-    hibernate:
-      ddl-auto: validate
-  flyway:
-    enabled: true # Enable migrations in production
-  mail:
-    host: ${SMTP_HOST:smtp.yourprovider.com}
-    port: ${SMTP_PORT:587}
     properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-  app:
-    cors:
-      allowed-origins: ${CORS_ALLOWED_ORIGINS:https://your-production-domain.com}
+      hibernate:
+        format_sql: false
+        jdbc:
+          batch_size: 50
+          
+  # Production Cache (Redis with longer TTL)
+  cache:
+    redis:
+      time-to-live: 7200s # 2 hours in production
+
+# Production Logging (less verbose)
+logging:
+  level:
+    com.eduplatform: INFO
+    org.hibernate.SQL: WARN
+    org.springframework.web: WARN
+    org.springframework.security: INFO
+    
+# Production Security (strict CORS)
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://yourdomain.com}
+    
+# Production JWT (standard expiration)
+  jwt:
+    expiration-ms: 3600000 # 1 hour in production

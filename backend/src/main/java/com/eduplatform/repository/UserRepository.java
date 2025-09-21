@@ -23,6 +23,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends BaseRepository<User> {
 
+
     /**
      * Find user by email (case-insensitive)
      */

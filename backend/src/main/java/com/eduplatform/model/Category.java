@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.SQLRestriction;
 
 /**
  * Category Entity
@@ -27,7 +28,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "deleted_at IS NULL")
+@SQLRestriction("deleted_at IS NULL")
 public class Category extends BaseEntity {
 
     @Column(name = "name", nullable = false, length = 100)
@@ -61,9 +62,11 @@ public class Category extends BaseEntity {
     private Category parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Category> subcategories = new HashSet<>();
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Course> courses = new HashSet<>();
 
     // Helper methods

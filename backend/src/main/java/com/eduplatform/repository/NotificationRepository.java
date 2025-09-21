@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Notification Repository
@@ -22,41 +24,47 @@ import java.util.List;
 public interface NotificationRepository extends BaseRepository<Notification> {
 
     /**
-     * Find notifications by user
+     * Finds notifications by user, ordered by creation date.
      */
     Page<Notification> findByUserOrderByCreatedAtDesc(User user, Pageable pageable);
 
     /**
-     * Find unread notifications by user
+     * Finds unread notifications by user, ordered by creation date.
      */
     Page<Notification> findByUserAndIsReadFalseOrderByCreatedAtDesc(User user, Pageable pageable);
 
     /**
-     * Find notifications by type
+     * Finds notifications by type.
      */
     List<Notification> findByType(NotificationType type);
 
     /**
-     * Count unread notifications for user
+     * Counts unread notifications for a user.
      */
     long countByUserAndIsReadFalse(User user);
 
     /**
-     * Mark all notifications as read for user
+     * Finds a notification by its ID only if it belongs to the specified user ID.
+     * This is a crucial security check to prevent users from accessing others' notifications.
+     */
+    Optional<Notification> findByIdAndUser_Id(UUID notificationId, UUID userId);
+
+    /**
+     * Marks all unread notifications as read for a specific user.
      */
     @Modifying
     @Query("UPDATE Notification n SET n.isRead = true, n.readAt = :readAt WHERE n.user = :user AND n.isRead = false")
     void markAllAsReadByUser(@Param("user") User user, @Param("readAt") LocalDateTime readAt);
 
     /**
-     * Delete old read notifications
+     * Deletes old, read notifications before a given date for system cleanup.
      */
     @Modifying
     @Query("DELETE FROM Notification n WHERE n.isRead = true AND n.createdAt < :cutoffDate")
     void deleteOldReadNotifications(@Param("cutoffDate") LocalDateTime cutoffDate);
 
     /**
-     * Find expired notifications
+     * Finds notifications that have passed their expiration date.
      */
     @Query("SELECT n FROM Notification n WHERE n.expiresAt IS NOT NULL AND n.expiresAt < :currentTime")
     List<Notification> findExpiredNotifications(@Param("currentTime") LocalDateTime currentTime);

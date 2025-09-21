@@ -48,7 +48,7 @@ public interface EnrollmentRepository extends BaseRepository<Enrollment> {
     /**
      * Find active enrollments by student
      */
-    Page<Enrollment> findByStudentAndStatus(User student, EnrollmentStatus status, Pageable pageable);
+    Page<Enrollment> findByStudentAndStatus(User student, EnrollmentStatus status);
 
     /**
      * Find enrollments by status

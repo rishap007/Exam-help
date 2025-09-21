@@ -7,6 +7,7 @@ import lombok.*;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 /**
@@ -69,7 +70,7 @@ public class UserProgress extends BaseEntity {
     public void updateProgress() {
         if (totalLessons > 0) {
             this.progressPercentage = BigDecimal.valueOf(lessonsCompleted)
-                    .divide(BigDecimal.valueOf(totalLessons), 2, BigDecimal.ROUND_HALF_UP)
+                    .divide(BigDecimal.valueOf(totalLessons), 2, RoundingMode.HALF_UP)
                     .multiply(BigDecimal.valueOf(100));
             
             if (lessonsCompleted.equals(totalLessons)) {

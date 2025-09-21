@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  * Tag Entity
  * Represents tags for courses and content organization
@@ -21,6 +22,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false, of = "slug")
 public class Tag extends TimestampedEntity {
 
     @Column(name = "name", unique = true, nullable = false, length = 50)
@@ -40,6 +42,7 @@ public class Tag extends TimestampedEntity {
     private Integer usageCount = 0;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    @Builder.Default    
     private Set<Course> courses = new HashSet<>();
 
     public void incrementUsageCount() {

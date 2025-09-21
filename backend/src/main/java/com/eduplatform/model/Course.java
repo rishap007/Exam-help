@@ -8,13 +8,15 @@ import com.eduplatform.model.base.BaseEntity;
 import com.eduplatform.model.enums.CourseLevel;
 import com.eduplatform.model.enums.CourseStatus;
 import lombok.*;
-import org.hibernate.annotations.Where;
+// import org.hibernate.annotations.Where;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.SQLRestriction;
+
 
 /**
  * Course Entity
@@ -32,7 +34,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "deleted_at IS NULL")
+@SQLRestriction("deleted_at IS NULL")
 public class Course extends BaseEntity {
 
     @Column(name = "title", nullable = false, length = 200)
@@ -108,9 +110,11 @@ public class Course extends BaseEntity {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("sortOrder ASC")
+    @Builder.Default
     private Set<Lesson> lessons = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Enrollment> enrollments = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -119,6 +123,7 @@ public class Course extends BaseEntity {
         joinColumns = @JoinColumn(name = "course_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @Builder.Default
     private Set<Tag> tags = new HashSet<>();
 
     // Helper methods

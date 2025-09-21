@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface UserProgressRepository extends BaseRepository<UserProgress> {
+    Optional<UserProgress> findByUser_IdAndCourse_Id(UUID userId, UUID courseId);
 
     Optional<UserProgress> findByUserAndCourse(User user, Course course);
 

@@ -26,6 +26,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// Add this annotation to your LessonProgress class
+@EqualsAndHashCode(callSuper = true, of = {"user", "lesson"})
 public class LessonProgress extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -79,4 +81,12 @@ public class LessonProgress extends BaseEntity {
         this.completedAt = LocalDateTime.now();
         this.score = finalScore;
     }
+
+    // Add this constructor inside your LessonProgress class
+
+public LessonProgress(User user, Lesson lesson) {
+    this.user = user;
+    this.lesson = lesson;
+    this.status = ProgressStatus.NOT_STARTED;
+}
 }

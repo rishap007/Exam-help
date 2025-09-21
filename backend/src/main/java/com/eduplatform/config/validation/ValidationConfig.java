@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import jakarta.validation.Validator;
+// import jakarta.validation.Validator;
 
 /**
  * Validation Configuration for EduPlatform

@@ -76,9 +76,11 @@ public class Lesson extends BaseEntity {
     private Course course;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<LessonProgress> progressRecords = new HashSet<>();
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private Set<Assignment> assignments = new HashSet<>();
 
     // Helper methods

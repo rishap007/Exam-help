@@ -73,6 +73,7 @@ public class Enrollment extends BaseEntity {
 
     // Relationships
     @OneToMany(mappedBy = "enrollment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default    
     private Set<UserProgress> progressRecords = new HashSet<>();
 
     // Helper methods
