@@ -9,11 +9,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-
+// import org.mapstruct.factory.Mappers;
+import org.mapstruct.Builder;
 @Mapper(
-    componentModel = MappingConstants.ComponentModel.SPRING,
-    // This is a best practice: it prevents null fields in your request from overwriting existing data
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+     componentModel = MappingConstants.ComponentModel.SPRING,
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+    builder = @Builder(disableBuilder = true)
 )
 public interface LessonMapper {
 

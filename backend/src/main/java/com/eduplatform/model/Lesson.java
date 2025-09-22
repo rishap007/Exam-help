@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import org.hibernate.annotations.SQLRestriction;
 /**
  * Lesson Entity
  * Represents individual lessons within courses
@@ -28,7 +29,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause = "deleted_at IS NULL")
+@SQLRestriction("deleted_at IS NULL")
 public class Lesson extends BaseEntity {
 
     @Column(name = "title", nullable = false, length = 200)

@@ -38,6 +38,8 @@ public interface UserRepository extends BaseRepository<User> {
      * Find users by role
      */
     Page<User> findByRole(UserRole role, Pageable pageable);
+    
+     List<User> findByRole(UserRole role);
 
     /**
      * Find users by status
