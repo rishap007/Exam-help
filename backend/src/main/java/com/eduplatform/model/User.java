@@ -1,5 +1,5 @@
 // ===========================================
-// USER ENTITY
+// USER ENTITY - CORRECTED FOR AUTHSERVICE COMPATIBILITY
 // ===========================================
 
 package com.eduplatform.model;
@@ -8,7 +8,6 @@ import com.eduplatform.model.base.BaseEntity;
 import com.eduplatform.model.enums.UserRole;
 import com.eduplatform.model.enums.UserStatus;
 import lombok.*;
-// import org.hibernate.annotations.Where;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +18,7 @@ import org.hibernate.annotations.SQLRestriction;
 /**
  * User Entity
  * Represents all users in the system (Students, Instructors, Admins)
+ * Enhanced with AuthService compatibility methods
  */
 @Entity
 @Table(name = "users", indexes = {
@@ -101,6 +101,12 @@ public class User extends BaseEntity {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @Column(name = "password_reset_token_expiry")
+    private LocalDateTime passwordResetTokenExpiry;
+
+    @Column(name = "email_verified_at")
+    private LocalDateTime emailVerifiedAt;
+
     // Relationships
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
@@ -114,7 +120,26 @@ public class User extends BaseEntity {
     @Builder.Default
     private Set<UserProgress> progressRecords = new HashSet<>();
 
-    // Helper methods
+    // ========== AUTHSERVICE COMPATIBILITY METHODS (ADDED) ==========
+
+    /**
+     * Get password for AuthService compatibility
+     * AuthService expects getPassword() method
+     */
+    public String getPassword() {
+        return this.passwordHash;
+    }
+
+    /**
+     * Set password for AuthService compatibility  
+     * AuthService expects setPassword() method
+     */
+    public void setPassword(String password) {
+        this.passwordHash = password;
+    }
+
+    // ========== EXISTING HELPER METHODS ==========
+
     public String getFullName() {
         return firstName + " " + lastName;
     }
@@ -131,7 +156,66 @@ public class User extends BaseEntity {
         return Boolean.TRUE.equals(emailVerified);
     }
 
-    // Soft delete
+    // ========== ADDITIONAL HELPER METHODS FOR AUTHSERVICE ==========
+
+    /**
+     * Check if password reset token is valid
+     */
+    public boolean isPasswordResetTokenValid() {
+        return passwordResetToken != null && 
+               passwordResetExpiresAt != null && 
+               passwordResetExpiresAt.isAfter(LocalDateTime.now());
+    }
+
+    /**
+     * Check if email verification token is valid
+     */
+    public boolean isEmailVerificationTokenValid() {
+        return emailVerificationToken != null && 
+               emailVerificationExpiresAt != null && 
+               emailVerificationExpiresAt.isAfter(LocalDateTime.now());
+    }
+
+    /**
+     * Increment failed login attempts
+     */
+    public void incrementFailedLoginAttempts() {
+        this.failedLoginAttempts = (this.failedLoginAttempts == null) ? 1 : this.failedLoginAttempts + 1;
+    }
+
+    /**
+     * Reset failed login attempts and unlock account
+     */
+    public void resetFailedLoginAttempts() {
+        this.failedLoginAttempts = 0;
+        this.accountLockedUntil = null;
+    }
+
+    /**
+     * Lock account for specified duration
+     */
+    public void lockAccount(int lockDurationMinutes) {
+        this.accountLockedUntil = LocalDateTime.now().plusMinutes(lockDurationMinutes);
+    }
+
+    /**
+     * Mark email as verified
+     */
+    public void verifyEmail() {
+        this.emailVerified = true;
+        this.emailVerificationToken = null;
+        this.emailVerificationExpiresAt = null;
+        this.emailVerifiedAt = LocalDateTime.now();
+    }
+
+    /**
+     * Generate display name for UI
+     */
+    public String getDisplayName() {
+        return getFullName();
+    }
+
+    // Soft delete (existing method)
     public void softDelete() {
         this.deletedAt = LocalDateTime.now();
         this.status = UserStatus.DELETED;

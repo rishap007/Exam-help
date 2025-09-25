@@ -1,11 +1,14 @@
-# Use a base image that includes a compatible JDK and Gradle for development.
+# Use the official Gradle image with JDK 17
 FROM gradle:8.5-jdk17-alpine
 
-# Set the working directory inside the container.
+# Set the working directory inside the container
 WORKDIR /app
 
-# The default command to run when the container starts.
-# We use "./gradlew bootRun" which starts the application in-place.
-# This works with the volume mount in docker-compose.yml and enables
-# Spring Boot DevTools for automatic hot-reloading when you change a file.
+# Copy only the Gradle wrapper files.
+# The source code will be mounted as a volume from the host.
+COPY build.gradle settings.gradle gradlew* ./
+COPY gradle gradle
+
+# Set the default command to run the application with hot-reloading.
+# Gradle will download dependencies on the first run.
 CMD ["./gradlew", "bootRun"]

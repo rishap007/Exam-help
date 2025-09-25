@@ -1,6 +1,6 @@
 # ==========================================
-# EDUPLATFORM BACKEND - CORRECTED CONFIGURATION
-# Fixed Hibernate naming strategy class name
+# EDUPLATFORM BACKEND - FULLY CORRECTED CONFIGURATION
+# All issues fixed and improvements applied
 # ==========================================
 
 spring:
@@ -11,13 +11,13 @@ spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:development}
 
-  # ===== DOCKER COMPOSE CONFIGURATION - FIXED =====
+  # ===== DOCKER COMPOSE CONFIGURATION =====
   # Disable Docker Compose integration for containerized applications
   docker:
     compose:
       enabled: false
 
-  # ===== DATABASE CONFIGURATION - FIXED =====
+  # ===== DATABASE CONFIGURATION - ENHANCED =====
   datasource:
     # Fixed: Added default values for all environment variables
     url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:eduplatform_dev}
@@ -31,6 +31,10 @@ spring:
       maximum-pool-size: 20
       minimum-idle: 5
       pool-name: EduPlatformHikariPool
+      # ADDED: Connection validation for better reliability
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
 
   # ===== JPA CONFIGURATION - CORRECTED =====
   jpa:
@@ -51,29 +55,28 @@ spring:
         connection:
           provider_disables_autocommit: true
 
-  # ===== FLYWAY MIGRATION - FIXED =====
+  # ===== FLYWAY MIGRATION - SIMPLIFIED =====
   flyway:
     enabled: true
     baseline-on-migrate: true
     locations: classpath:db/migration
-    # Fixed: Explicit Flyway database configuration
-    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:eduplatform_dev}
-    user: ${DB_USERNAME:eduplatform_user}
-    password: ${DB_PASSWORD:your_secure_password_here}
+    # FIXED: Removed duplicate URL configuration - Flyway inherits from datasource
 
-  # ===== REDIS CONFIGURATION - FIXED =====
+  # ===== REDIS CONFIGURATION - ENHANCED =====
   data:
     redis:
       host: ${REDIS_HOST:redis}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:}
       timeout: 2000ms
+      database: ${REDIS_DATABASE:0}
       lettuce:
         pool:
-          max-active: 8
+          max-active: 16
           max-wait: -1ms
           max-idle: 8
-          min-idle: 0
+          min-idle: 2
+          time-between-eviction-runs: 60s
 
   # ===== CACHE CONFIGURATION =====
   cache:
@@ -106,7 +109,7 @@ spring:
       enabled: true
       file-size-threshold: 2KB
 
-  # ===== MAIL CONFIGURATION - FIXED =====
+  # ===== MAIL CONFIGURATION =====
   mail:
     host: ${SMTP_HOST:mailpit}
     port: ${SMTP_PORT:1025}
@@ -200,7 +203,7 @@ logging:
     max-size: 100MB
     max-history: 30
 
-# ===== APPLICATION SPECIFIC CONFIGURATION =====
+# ===== APPLICATION SPECIFIC CONFIGURATION - FIXED =====
 app:
   # JWT Configuration
   jwt:
@@ -208,13 +211,26 @@ app:
     expiration-ms: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
     refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION:604800000} # 7 days in milliseconds
     issuer: ${JWT_ISSUER:eduplatform}
-    
-  # File Upload Configuration
+
+  # MFA Configuration (FIXED INDENTATION)
+  mfa:
+    enabled: ${MFA_ENABLED:false}
+
+  # API Configuration (MERGED - NO DUPLICATES)
+  api:
+    version: v1
+    base-path: /api/v1
+    rate-limit:
+      enabled: true
+      requests-per-minute: 100
+
+  # File Upload Configuration (ENHANCED)
   upload:
     directory: ${UPLOAD_DIR:./uploads}
     max-file-size: ${MAX_FILE_SIZE:10485760} # 10MB
     allowed-extensions: jpg,jpeg,png,gif,pdf,doc,docx,txt,mp4,mov,avi
-    
+    virus-scan-enabled: ${VIRUS_SCAN_ENABLED:false}
+
   # CORS Configuration
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:80}
@@ -223,25 +239,21 @@ app:
     exposed-headers: "Authorization,Content-Disposition"
     allow-credentials: true
     max-age: 3600
-    
-  # API Configuration
-  api:
-    version: v1
-    base-path: /api/v1
-    rate-limit:
-      enabled: true
-      requests-per-minute: 100
-      
+
+  # Frontend URL for email links
+  frontend:
+    url: ${FRONTEND_URL:http://localhost:3000}
+
   # Email Configuration
   email:
     from: ${EMAIL_FROM:noreply@eduplatform.com}
     from-name: ${EMAIL_FROM_NAME:EduPlatform}
-    
+
   # Pagination Configuration
   pagination:
     default-size: 20
     max-size: 100
-    
+
   # File Configuration
   file:
     max-profile-picture-size: ${MAX_PROFILE_PICTURE_SIZE:2097152} # 2MB
@@ -261,7 +273,7 @@ spring:
   config:
     activate:
       on-profile: development
-      
+
   # Docker Compose enabled for development (optional)
   docker:
     compose:
@@ -270,25 +282,25 @@ spring:
       lifecycle-management: start-and-stop
       skip:
         in-tests: true
-        
+
   # Development Database Settings
   datasource:
     url: jdbc:postgresql://postgres:5432/eduplatform_dev
     username: eduplatform_user
     password: your_secure_password_here
-    
+
   # Development JPA Settings
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        
+
   # Development Cache (use Redis but with shorter TTL)
   cache:
     redis:
       time-to-live: 300s # 5 minutes in development
-      
+
   # Development Mail (Mailpit)
   mail:
     host: mailpit
@@ -309,16 +321,16 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.data.redis: DEBUG
-    
+
 # Development CORS (more permissive)
 app:
   cors:
     allowed-origins: "*"
-    
+
   # Development JWT (longer expiration for convenience)
   jwt:
     expiration-ms: 86400000 # 24 hours
-    
+
 ---
 # ===== TEST ENVIRONMENT =====
 spring:
@@ -337,21 +349,21 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
-    
+
   # Test JPA Settings
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-      
+
   # Disable Flyway for tests (use JPA to create schema)
   flyway:
     enabled: false
-    
+
   # Test Cache (simple in-memory)
   cache:
     type: simple
-    
+
   # Test Mail (no-op)
   mail:
     host: localhost
@@ -363,7 +375,7 @@ logging:
     com.eduplatform: INFO
     org.hibernate.SQL: WARN
     org.springframework.web: WARN
-    
+
 ---
 # ===== PRODUCTION ENVIRONMENT =====
 spring:
@@ -384,7 +396,7 @@ spring:
         format_sql: false
         jdbc:
           batch_size: 50
-          
+
   # Production Cache (Redis with longer TTL)
   cache:
     redis:
@@ -397,15 +409,23 @@ logging:
     org.hibernate.SQL: WARN
     org.springframework.web: WARN
     org.springframework.security: INFO
-    
+
 # Production Security (strict CORS)
 app:
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:https://yourdomain.com}
-    
+
   # Production JWT (standard expiration)
   jwt:
     expiration-ms: 3600000 # 1 hour in production
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: true
+        same-site: strict
 
 # ===== ALTERNATIVE NAMING STRATEGIES (COMMENTED) =====
 # If you want to use different naming strategies, uncomment one of these:

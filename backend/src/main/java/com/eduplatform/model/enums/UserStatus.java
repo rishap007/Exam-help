@@ -4,6 +4,7 @@ public enum UserStatus {
     ACTIVE("Active"),
     INACTIVE("Inactive"),
     SUSPENDED("Suspended"),
+    PENDING_VERIFICATION("Pending Verification"),
     DELETED("Deleted");
 
     private final String displayName;
@@ -15,4 +16,5 @@ public enum UserStatus {
     public String getDisplayName() {
         return displayName;
     }
+    
 }
