@@ -156,7 +156,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus,flyway,env
+        include: health,info,metrics,prometheus,flyway,env,mappings
       base-path: /actuator
   endpoint:
     health:
@@ -269,10 +269,18 @@ minio:
 
 ---
 # ===== DEVELOPMENT ENVIRONMENT =====
-spring:
+# spring:
+#   config:
+#     activate:
+#       on-profile: development
+ spring:
   config:
     activate:
       on-profile: development
+  security:
+    # Disable CSRF for development testing
+    csrf:
+      enabled: false
 
   # Docker Compose enabled for development (optional)
   docker:
@@ -285,9 +293,9 @@ spring:
 
   # Development Database Settings
   datasource:
-    url: jdbc:postgresql://postgres:5432/eduplatform_dev
+    url: jdbc:postgresql://postgres:5432/eduplatform_db
     username: eduplatform_user
-    password: your_secure_password_here
+    password: eduplatform_password
 
   # Development JPA Settings
   jpa:
