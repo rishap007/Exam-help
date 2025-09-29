@@ -26,6 +26,7 @@ spring:
       max-lifetime: 1800000
       maximum-pool-size: 20
       minimum-idle: 5
+      auto-commit: false 
       pool-name: EduPlatformHikariPool
       # ADDED: Connection validation for better reliability
       connection-test-query: SELECT 1
@@ -285,9 +286,11 @@ spring:
     username: eduplatform_user
     password: eduplatform_password
 
-  # Development JPA Settings
+  # Development JPA Settings - FIXED
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update  # CHANGED: This will auto-create missing columns
     properties:
       hibernate:
         format_sql: true
@@ -307,26 +310,6 @@ spring:
           auth: false
           starttls:
             enable: false
-
-# Development Logging (more verbose)
-logging:
-  level:
-    com.eduplatform: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.springframework.data.redis: DEBUG
-
-# Development CORS (more permissive)
-app:
-  cors:
-    allowed-origins: "*"
-
-  # Development JWT (longer expiration for convenience)
-  jwt:
-    expiration-ms: 86400000 # 24 hours
-
 ---
 # ===== TEST ENVIRONMENT =====
 spring:

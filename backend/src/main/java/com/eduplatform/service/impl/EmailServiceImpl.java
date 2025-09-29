@@ -147,23 +147,21 @@ public class EmailServiceImpl implements EmailService {
     }
     
     private void sendHtmlEmail(String toEmail, String subject, String htmlContent) throws MessagingException {
-    MimeMessage message = javaMailSender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-    try {
-        // FIX: Wrap the call that throws the checked exception in a try-catch block
-        helper.setFrom(fromEmail, fromName);
-    } catch (UnsupportedEncodingException e) {
-        // This is unlikely to happen with "UTF-8", so we wrap it in a runtime exception
-        throw new RuntimeException("Error setting from email address", e);
+        try {
+            helper.setFrom(fromEmail, fromName);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Error setting from email address", e);
+        }
+
+        helper.setTo(toEmail);
+        helper.setSubject(subject);
+        helper.setText(htmlContent, true);
+
+        javaMailSender.send(message);
     }
-
-    helper.setTo(toEmail);
-    helper.setSubject(subject);
-    helper.setText(htmlContent, true);
-
-    javaMailSender.send(message);
-}
 
     private String loadEmailTemplate(String templateName) {
         try {
@@ -177,7 +175,6 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private String getFallbackTemplate(String templateName) {
-        // Simple fallback templates to prevent crashes if HTML files are missing.
         switch (templateName) {
             case "email-verification.html":
                 return "<html><body><h1>Verify Your Email</h1><p>Hello {{firstName}},</p><p>Please click <a href='{{verificationUrl}}'>here</a> to verify.</p></body></html>";

@@ -48,8 +48,8 @@ public interface LessonProgressRepository extends BaseRepository<LessonProgress>
      * Get lesson completion statistics
      */
     @Query("SELECT COUNT(lp), " +
-           "COUNT(CASE WHEN lp.status = 'COMPLETED' THEN 1 END), " +
-           "AVG(lp.timeSpent) " +
-           "FROM LessonProgress lp WHERE lp.lesson = :lesson")
-    List<Object[]> getLessonProgressStatistics(@Param("lesson") Lesson lesson);
+       "COUNT(CASE WHEN lp.status = 'COMPLETED' THEN 1 END), " +
+       "AVG(lp.timeSpentSeconds) " +  // FIXED: Use correct field name
+       "FROM LessonProgress lp WHERE lp.lesson = :lesson")
+List<Object[]> getLessonProgressStatistics(@Param("lesson") Lesson lesson);
 }

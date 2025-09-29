@@ -1,5 +1,6 @@
 package com.eduplatform.config.database;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -17,6 +18,7 @@ import java.util.Optional;
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "com.eduplatform.repository")
+@EntityScan(basePackages = "com.eduplatform.model")  // ADDED: This tells JPA where to find entities
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @EnableTransactionManagement
 public class JpaConfig {
@@ -34,16 +36,16 @@ public class JpaConfig {
      * Custom Auditor Implementation
      */
     public static class AuditorAwareImpl implements AuditorAware<String> {
-        
+
         @Override
         public Optional<String> getCurrentAuditor() {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            
-            if (authentication == null || !authentication.isAuthenticated() || 
+
+            if (authentication == null || !authentication.isAuthenticated() ||
                 "anonymousUser".equals(authentication.getPrincipal())) {
                 return Optional.of("system");
             }
-            
+
             return Optional.of(authentication.getName());
         }
     }
