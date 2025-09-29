@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.AssertTrue;
 
 @Data
 @Builder
@@ -40,4 +42,11 @@ public class UserRegistrationRequest {
     
     private String timezone;
     private String language;
+
+    @NotBlank(message = "Password confirmation is required")
+    private String confirmPassword;
+    
+    @NotNull(message = "You must accept the terms and conditions")
+    @AssertTrue(message = "You must accept the terms and conditions")
+    private Boolean acceptTerms;
 }

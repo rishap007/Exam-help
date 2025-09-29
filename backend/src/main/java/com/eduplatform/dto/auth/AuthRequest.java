@@ -30,8 +30,8 @@ public class AuthRequest {
         @NotBlank(message = "Password is required")
         private String password;
 
-        @Builder.Default
-        private Boolean rememberMe = false;
+        
+        private Boolean rememberMe;
     }
 
     /**
@@ -63,8 +63,8 @@ public class AuthRequest {
         @JsonProperty("confirmPassword")
         private String confirmPassword;
 
-        @Builder.Default
-        private Boolean acceptTerms = false;
+        
+        private Boolean acceptTerms;
     }
 
     /**
