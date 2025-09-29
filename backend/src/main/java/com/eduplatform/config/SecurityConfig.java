@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Slf4j
 @Configuration
@@ -26,6 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,26 +46,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.info("🛡️ Configuring Security - DISABLING CSRF AND JWT FILTER FOR TESTING");
+        log.info("Configuring Security - ENABLING JWT FILTER FOR AUTHENTICATION");
 
         return http
             // DISABLE CSRF
             .csrf(AbstractHttpConfigurer::disable)
-            
+
             // ENABLE CORS (use existing CorsConfig)
             .cors(cors -> {})  // Empty lambda - uses default CORS configuration
 
             // Configure session management (stateless)
-            .sessionManagement(session -> 
+            .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // Configure exception handling  
-            .exceptionHandling(exception -> 
+            // Configure exception handling
+            .exceptionHandling(exception ->
                 exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
             )
 
-            // Configure authorization rules - VERY PERMISSIVE
+            // Configure authorization rules
             .authorizeHttpRequests(auth -> auth
                 // Allow OPTIONS for CORS
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -82,7 +84,10 @@ public class SecurityConfig {
                 // Require auth for everything else
                 .anyRequest().authenticated()
             )
-            
+
+            // Add JWT authentication filter
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+
             .build();
     }
 }
