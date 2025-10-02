@@ -112,25 +112,25 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<LessonDto> reorderLessons(UUID courseId, List<UUID> lessonIds, UUID instructorId) {
-        // TODO: Implement reordering logic
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public Optional<LessonDto> getNextLesson(UUID currentLessonId) {
-        // TODO: Implement next lesson logic
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public Optional<LessonDto> getPreviousLesson(UUID currentLessonId) {
-        // TODO: Implement previous lesson logic
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
     @Override
     public Optional<LessonDto> findByCourseAndSlug(UUID courseId, String slug) {
-        // TODO: Implement find by course and slug
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

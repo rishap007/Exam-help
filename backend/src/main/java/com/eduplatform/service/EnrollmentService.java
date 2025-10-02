@@ -2,7 +2,7 @@ package com.eduplatform.service;
 
 import com.eduplatform.dto.response.EnrollmentDto;
 import com.eduplatform.dto.response.EnrollmentStatsDto;
-// TODO: Create the EnrollmentStatsDto class in the dto/response package
+
 // import com.eduplatform.dto.response.EnrollmentStatsDto;
 import com.eduplatform.model.Enrollment;
 import com.eduplatform.model.enums.EnrollmentStatus;

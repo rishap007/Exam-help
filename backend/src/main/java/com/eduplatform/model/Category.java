@@ -6,7 +6,7 @@ package com.eduplatform.model;
 
 import com.eduplatform.model.base.BaseEntity;
 import lombok.*;
-import org.hibernate.annotations.Where;
+// import org.hibernate.annotations.Where;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

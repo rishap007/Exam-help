@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.validation.constraints.Min;
+// import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Data

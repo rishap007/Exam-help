@@ -5,9 +5,8 @@ import com.eduplatform.dto.response.CourseProgressSummaryDto;
 import com.eduplatform.dto.response.LearningAnalyticsDto;
 import com.eduplatform.dto.response.LessonProgressDto;
 import com.eduplatform.dto.response.UserProgressDto;
-// TODO: Create the CourseProgressSummaryDto class in the dto/response package
+
 // import com.eduplatform.dto.response.CourseProgressSummaryDto;
-// TODO: Create the LearningAnalyticsDto class in the dto/response package
 // import com.eduplatform.dto.response.LearningAnalyticsDto;
 
 

@@ -31,7 +31,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
         MDC.put(REQUEST_ID_MDC_KEY, requestId);
         response.setHeader(REQUEST_ID_HEADER, requestId);
 
-        // TODO: Implement when security is configured
+    
         String userId = extractUserIdFromSecurityContext(); 
         if (userId != null) {
             MDC.put(USER_ID_MDC_KEY, userId);
