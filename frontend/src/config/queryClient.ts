@@ -1,6 +1,6 @@
 import { QueryClient, QueryCache, MutationCache } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import type{ ApiError } from '@/types';
+import type { ApiError } from '@/types';
 
 // Error handler for queries
 const handleQueryError = (error: unknown) => {
@@ -49,7 +49,7 @@ export const queryClient = new QueryClient({
       staleTime: 5 * 60 * 1000, // 5 minutes
       gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
       retry: (failureCount, error) => {
-        const apiError = error as ApiError;
+        const apiError = error as unknown as ApiError;
         
         // Don't retry on 4xx errors except 429 (Too Many Requests)
         if (apiError.status >= 400 && apiError.status < 500 && apiError.status !== 429) {

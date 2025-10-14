@@ -192,17 +192,12 @@ export const useChangePassword = () => {
  */
 export const useCurrentUser = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const setUser = useAuthStore((state) => state.setUser);
 
   return useQuery<User, Error>({
     queryKey: queryKeys.auth.profile,
     queryFn: userService.getCurrentProfile,
-    
     enabled: isAuthenticated,
     staleTime: 10 * 60 * 1000, // 10 minutes
-    onSuccess: (data:User) => {
-      setUser(data);
-    },
   });
 };
 

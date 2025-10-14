@@ -1,17 +1,23 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient,keepPreviousData } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { courseService } from '@/services/api/courseService';
 import { queryKeys } from '@/config/queryClient';
-import { CreateCourseRequest } from '@/types';
+import type { CreateCourseRequest } from '@/types';
+// import { useQuery, keepPreviousData } from '@tanstack/react-query';
+
 
 /**
  * Hook for fetching published courses
  */
-export const useCourses = (page: number = 0, size: number = 20, params?: Record<string, any>) => {
+export const useCourses = (
+  page: number = 0,
+  size: number = 20,
+  params?: Record<string, any>
+) => {
   return useQuery({
     queryKey: queryKeys.courses.list({ page, size, ...params }),
     queryFn: () => courseService.getPublishedCourses(page, size, params),
-    keepPreviousData: true,
+    placeholderData: keepPreviousData, // ✅ v5 syntax
   });
 };
 
@@ -154,6 +160,6 @@ export const useSearchCourses = (
     queryKey: ['courses', 'search', query, page, size, filters],
     queryFn: () => courseService.searchCourses(query, page, size, filters),
     enabled: query.length > 0,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   });
 };
