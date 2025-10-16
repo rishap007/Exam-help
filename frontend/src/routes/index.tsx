@@ -1,10 +1,27 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useIsAuthenticated } from '@/hooks/useAuth';
+import { useAuthStore } from '@/stores/authStore';
+import { UserRole } from '@/types';
+import { MainLayout, SimpleLayout } from '@/components/layout/MainLayout';
 
-// Placeholder components - we'll create these in the next steps
-const LoginPage = () => <div className="p-8">Login Page - Coming Soon</div>;
-const RegisterPage = () => <div className="p-8">Register Page - Coming Soon</div>;
-const DashboardPage = () => <div className="p-8">Dashboard - Coming Soon</div>;
+// Auth pages
+import { LoginPage } from '@/pages/auth/LoginPage';
+import { RegisterPage } from '@/pages/auth/RegisterPage';
+import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage';
+import { ResetPasswordPage } from '@/pages/auth/ResetPasswordPage';
+import { VerifyEmailPage } from '@/pages/auth/VerifyEmailPage';
+
+// Dashboard pages
+import { StudentDashboard } from '@/pages/dashboard/StudentDashboard';
+import { InstructorDashboard } from '@/pages/dashboard/InstructorDashboard';
+
+// Placeholder components
+const AdminDashboard = () => <div className="p-8">Admin Dashboard - Coming Soon</div>;
+const CoursesPage = () => <div className="p-8">Courses Page - Coming Soon</div>;
+const CourseDetailPage = () => <div className="p-8">Course Detail - Coming Soon</div>;
+const MyCoursesPage = () => <div className="p-8">My Courses - Coming Soon</div>;
+const ProfilePage = () => <div className="p-8">Profile Page - Coming Soon</div>;
+const SettingsPage = () => <div className="p-8">Settings - Coming Soon</div>;
+
 const HomePage = () => (
   <div className="flex h-screen items-center justify-center">
     <div className="text-center">
@@ -33,60 +50,152 @@ const HomePage = () => (
 // Protected Route Component
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  roles?: UserRole[];
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const isAuthenticated = useIsAuthenticated();
+const ProtectedRoute = ({ children, roles }: ProtectedRouteProps) => {
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
-};
-
-// Public Route Component (redirect if authenticated)
-const PublicRoute = ({ children }: ProtectedRouteProps) => {
-  const isAuthenticated = useIsAuthenticated();
-
-  if (isAuthenticated) {
+  // Check role-based access
+  if (roles && user && !roles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;
 };
 
+// Public Route Component (redirect if authenticated)
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+
+  if (isAuthenticated && user) {
+    // Redirect based on role
+    const dashboardPath =
+      user.role === UserRole.ADMIN
+        ? '/admin/dashboard'
+        : user.role === UserRole.INSTRUCTOR
+        ? '/instructor/dashboard'
+        : '/dashboard';
+    
+    return <Navigate to={dashboardPath} replace />;
+  }
+
+  return <>{children}</>;
+};
+
+// Dashboard router - shows appropriate dashboard based on role
+const DashboardRouter = () => {
+  const user = useAuthStore((state) => state.user);
+
+  if (!user) return <Navigate to="/login" replace />;
+
+  switch (user.role) {
+    case UserRole.ADMIN:
+      return <AdminDashboard />;
+    case UserRole.INSTRUCTOR:
+      return <InstructorDashboard />;
+    case UserRole.STUDENT:
+    default:
+      return <StudentDashboard />;
+  }
+};
+
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public Routes */}
+      {/* Public Routes - No Layout */}
       <Route path="/" element={<HomePage />} />
-      <Route
-        path="/login"
-        element={
-          <PublicRoute>
-            <LoginPage />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <PublicRoute>
-            <RegisterPage />
-          </PublicRoute>
-        }
-      />
 
-      {/* Protected Routes */}
+      {/* Auth Routes - Simple Layout */}
+      <Route element={<SimpleLayout />}>
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <RegisterPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <PublicRoute>
+              <ForgotPasswordPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <PublicRoute>
+              <ResetPasswordPage />
+            </PublicRoute>
+          }
+        />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
+      </Route>
+
+      {/* Protected Routes - Main Layout with Sidebar */}
       <Route
-        path="/dashboard"
         element={
           <ProtectedRoute>
-            <DashboardPage />
+            <MainLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        {/* Dashboard - Role-based routing */}
+        <Route path="/dashboard" element={<DashboardRouter />} />
+
+        {/* Student Routes */}
+        <Route
+          path="/my-courses"
+          element={
+            <ProtectedRoute roles={[UserRole.STUDENT]}>
+              <MyCoursesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Instructor Routes */}
+        <Route
+          path="/instructor/dashboard"
+          element={
+            <ProtectedRoute roles={[UserRole.INSTRUCTOR, UserRole.ADMIN]}>
+              <InstructorDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute roles={[UserRole.ADMIN]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Common Routes */}
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/courses/:slug" element={<CourseDetailPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+      </Route>
 
       {/* 404 - Not Found */}
       <Route
