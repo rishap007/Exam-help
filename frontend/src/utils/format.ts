@@ -83,3 +83,30 @@ export function getDisplayName(user: {
   
   return 'Anonymous';
 }
+
+/**
+ * Format file size from bytes to human-readable string
+ * @param bytes - File size in bytes
+ * @param decimals - Number of decimal places (default: 2)
+ * @returns Formatted file size string (e.g., "1.5 MB", "256 KB")
+ */
+export function formatFileSize(bytes: number, decimals: number = 2): string {
+  if (!Number.isFinite(bytes) || bytes < 0) {
+    return '0 Bytes';
+  }
+  
+  if (bytes === 0) {
+    return '0 Bytes';
+  }
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const safeIndex = Math.min(i, sizes.length - 1);
+
+  const formattedSize = parseFloat((bytes / Math.pow(k, safeIndex)).toFixed(dm));
+  
+  return `${formattedSize} ${sizes[safeIndex]}`;
+}
