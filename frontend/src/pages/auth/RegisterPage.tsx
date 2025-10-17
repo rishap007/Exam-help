@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, UserPlus, CheckCircle2 } from 'lucide-react';
 import { useRegister } from '@/hooks/useAuth';
 import type { RegisterFormData } from '@/features/auth/schemas/authSchemas';
-import  { registerSchema } from '@/features/auth/schemas/authSchemas';
+import { registerSchema } from '@/features/auth/schemas/authSchemas';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -39,7 +39,7 @@ export const RegisterPage = () => {
   const password = form.watch('password');
   const getPasswordStrength = (pwd: string) => {
     if (!pwd) return { strength: 0, label: '', color: '' };
-    
+
     let strength = 0;
     if (pwd.length >= 8) strength++;
     if (/[a-z]/.test(pwd)) strength++;
@@ -180,11 +180,10 @@ export const RegisterPage = () => {
                               {[1, 2, 3, 4, 5].map((i) => (
                                 <div
                                   key={i}
-                                  className={`h-1 flex-1 rounded-full ${
-                                    i <= passwordStrength.strength
+                                  className={`h-1 flex-1 rounded-full ${i <= passwordStrength.strength
                                       ? passwordStrength.color
                                       : 'bg-muted'
-                                  }`}
+                                    }`}
                                 />
                               ))}
                             </div>
@@ -244,7 +243,7 @@ export const RegisterPage = () => {
                       <FormControl>
                         <Checkbox
                           checked={field.value}
-                          onChange={field.onChange}
+                          onChange={(e) => field.onChange(e.target.checked)} 
                           disabled={register.isPending}
                         />
                       </FormControl>
@@ -265,6 +264,7 @@ export const RegisterPage = () => {
                   </FormItem>
                 )}
               />
+
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4">
