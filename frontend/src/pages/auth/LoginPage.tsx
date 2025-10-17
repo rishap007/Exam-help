@@ -13,7 +13,7 @@ import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
 
 export const LoginPage = () => {
-  console.log('🔥 LOGIN PAGE LOADED:', new Date().toLocaleTimeString());
+  // console.log('🔥 LOGIN PAGE LOADED:', new Date().toLocaleTimeString());
   const [showPassword, setShowPassword] = useState(false);
   const login = useLogin();
 

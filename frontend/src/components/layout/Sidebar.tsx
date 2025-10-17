@@ -4,7 +4,7 @@ import {
   BookOpen,
   GraduationCap,
   Users,
-  Settings,
+  Settings, 
   FileText,
   BarChart3,
   ChevronLeft,

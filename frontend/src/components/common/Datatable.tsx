@@ -5,7 +5,7 @@ interface Column<T> {
   header: string;
   render?: (item: T) => React.ReactNode;
   className?: string;
-}
+}   
 
 interface DataTableProps<T> {
   data: T[];

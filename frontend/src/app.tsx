@@ -5,27 +5,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { queryClient } from '@/config/queryClient';
 import { useUIStore } from '@/stores/uiStore';
-import { useAuthStore } from '@/stores/authStore';
+// import { useAuthStore } from '@/stores/authStore';
 import AppRoutes from '@/routes';
 
 function App() {
-  console.log('🔥 MAIN APP LOADED:', new Date().toLocaleTimeString());
+  // console.log('🔥 MAIN APP LOADED:', new Date().toLocaleTimeString());
   
-  // 🔍 DEBUG: Check authentication state
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const user = useAuthStore((state) => state.user);
-  console.log('🔍 AUTH STATE:', { isAuthenticated, user });
-  console.log('🔍 CURRENT URL:', window.location.pathname);
-  
+  // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  // const user = useAuthStore((state) => state.user);
   const theme = useUIStore((state) => state.theme);
   const setTheme = useUIStore((state) => state.setTheme);
 
-  // Initialize theme on mount
   useEffect(() => {
     setTheme(theme);
-  }, []);
+  }, []); 
 
-  // Listen for system theme changes
   useEffect(() => {
     if (theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -42,42 +36,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        
-        {/* 🚨 RED TEST BOX - REMOVE THIS AFTER TESTING */}
-        <div style={{
-          background: 'red',
-          color: 'white',
-          padding: '15px',
-          fontSize: '18px',
-          position: 'fixed',
-          top: '0',
-          left: '0',
-          zIndex: 9999,
-          width: '100%',
-          textAlign: 'center'
-        }}>
-          🚨 APP TEST: {new Date().toLocaleTimeString()} | 
-          Auth: {isAuthenticated ? 'YES' : 'NO'} | 
-          URL: {window.location.pathname}
-        </div>
 
-        {/* 🔍 DEBUG INFO BOX */}
-        <div style={{
-          background: 'blue',
-          color: 'white',
-          padding: '10px',
-          fontSize: '14px',
-          position: 'fixed',
-          top: '60px',
-          left: '0',
-          zIndex: 9998,
-          width: '100%',
-          textAlign: 'left'
-        }}>
-          🔍 DEBUG: Auth={String(isAuthenticated)} | User={user ? `${user.role} - ${user.firstName}` : 'null'}
-        </div>
 
-        <div style={{ marginTop: '120px' }}>
+        {/* 🔍 TEST: Try AppRoutes */}
+        <div style={{ marginTop: '50px' }}>
           <AppRoutes />
         </div>
         
