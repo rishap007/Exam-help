@@ -31,7 +31,7 @@ export const RegisterPage = () => {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    const { confirmPassword, acceptTerms, ...registerData } = data;
+    const { ...registerData } = data;
     register.mutate(registerData);
   };
 
@@ -181,8 +181,8 @@ export const RegisterPage = () => {
                                 <div
                                   key={i}
                                   className={`h-1 flex-1 rounded-full ${i <= passwordStrength.strength
-                                      ? passwordStrength.color
-                                      : 'bg-muted'
+                                    ? passwordStrength.color
+                                    : 'bg-muted'
                                     }`}
                                 />
                               ))}
@@ -242,13 +242,14 @@ export const RegisterPage = () => {
                     <div className="flex items-start gap-2">
                       <FormControl>
                         <Checkbox
+                          id="accept-terms"
                           checked={field.value}
-                          onChange={(e) => field.onChange(e.target.checked)} 
+                          onChange={(e) => field.onChange(e.target.checked)}
                           disabled={register.isPending}
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel>
+                        <FormLabel htmlFor="accept-terms">
                           I agree to the{' '}
                           <Link to="/terms" className="text-primary hover:underline">
                             Terms of Service
@@ -264,6 +265,7 @@ export const RegisterPage = () => {
                   </FormItem>
                 )}
               />
+
 
             </CardContent>
 

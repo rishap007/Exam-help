@@ -23,23 +23,48 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (credentials: LoginCredentials) =>
       authService.login(credentials),
-    onSuccess: (data) => {
-      setAuth(data);
+    onSuccess: (response) => {
+      console.log('Login response received:', response); // ✅ Debug log
+      
+      // ✅ Cast response to any to access all properties
+      const apiResponse = response as any;
+      
+      // ✅ Now response is directly the login data from backend
+      const authData = {
+        accessToken: apiResponse.accessToken,
+        refreshToken: apiResponse.refreshToken, 
+        tokenType: apiResponse.tokenType || 'Bearer', // ✅ Handle missing property
+        expiresIn: apiResponse.expiresIn || 3600,
+        user: apiResponse.user,
+      };
+      
+      console.log('Auth data to store:', authData); // ✅ Debug log
+      
+      // ✅ Validate required data exists
+      if (!authData.accessToken) {
+        console.error('No access token in response:', response);
+        toast.error('Login failed - no access token received');
+        return;
+      }
+      
+      setAuth(authData);
+      
       toast.success('Welcome back!', {
-        description: `Logged in as ${data.user.firstName} ${data.user.lastName}`,
+        description: `Logged in as ${authData.user?.firstName || 'User'} ${authData.user?.lastName || ''}`,
       });
       
       // Navigate based on user role
       const dashboardPath =
-        data.user.role === UserRole.ADMIN
+        authData.user?.role === UserRole.ADMIN
           ? '/admin/dashboard'
-          : data.user.role === UserRole.INSTRUCTOR
+          : authData.user?.role === UserRole.INSTRUCTOR
           ? '/instructor/dashboard'
           : '/dashboard';
       
       navigate(dashboardPath);
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('Login error:', error);
       toast.error('Login failed', {
         description: 'Please check your credentials and try again.',
       });
@@ -58,7 +83,8 @@ export const useRegister = () => {
         description: 'Please check your email to verify your account.',
       });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('Registration error:', error);
       toast.error('Registration failed', {
         description: 'Please try again or contact support.',
       });
@@ -102,7 +128,8 @@ export const useVerifyEmail = () => {
         description: 'You can now log in to your account.',
       });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('Verification error:', error);
       toast.error('Verification failed', {
         description: 'The verification link may have expired.',
       });
@@ -121,6 +148,9 @@ export const useResendVerification = () => {
         description: 'Please check your inbox.',
       });
     },
+    onError: (error) => {
+      console.error('Resend verification error:', error);
+    },
   });
 };
 
@@ -134,6 +164,9 @@ export const useForgotPassword = () => {
       toast.success('Password reset email sent!', {
         description: 'Please check your inbox for instructions.',
       });
+    },
+    onError: (error) => {
+      console.error('Forgot password error:', error);
     },
   });
 };
@@ -153,7 +186,8 @@ export const useResetPassword = () => {
       });
       navigate('/login');
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('Reset password error:', error);
       toast.error('Password reset failed', {
         description: 'The reset link may have expired.',
       });
@@ -170,6 +204,9 @@ export const useChangePassword = () => {
       authService.changePassword(data),
     onSuccess: () => {
       toast.success('Password changed successfully!');
+    },
+    onError: (error) => {
+      console.error('Change password error:', error);
     },
   });
 };

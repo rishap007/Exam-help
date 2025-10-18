@@ -1,9 +1,9 @@
 import apiClient from './client';
-import type{
+import type {
   LoginCredentials,
   RegisterData,
   LoginResponse,
-  ApiResponse,
+  // ApiResponse,
   ChangePasswordRequest,
 } from '@/types';
 
@@ -12,81 +12,84 @@ export const authService = {
    * Login user
    */
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
-    const response = await apiClient.post<ApiResponse<LoginResponse>>(
-      '/auth/login',
-      credentials
-    );
-    return response.data.data;
-  },
+    try {
+      console.log('🔵 authService.login - Starting with credentials:', credentials);
 
-  /**
-   * Register new user
-   */
-  register: async (data: RegisterData): Promise<void> => {
-    await apiClient.post<ApiResponse<void>>('/auth/register', data);
-  },
+      const response = await apiClient.post<any>('/auth/login', credentials);
 
-  /**
-   * Logout user
-   */
-  logout: async (): Promise<void> => {
-    await apiClient.post<ApiResponse<void>>('/auth/logout');
-  },
+      console.log('🟢 authService.login - Full axios response:', response);
+      console.log('🟢 authService.login - response.data:', response.data);
+      console.log('🟢 authService.login - response.data type:', typeof response.data);
+      console.log('🟢 authService.login - response.data keys:', response.data ? Object.keys(response.data) : 'null');
 
-  /**
-   * Refresh access token
-   */
-  refreshToken: async (refreshToken: string): Promise<LoginResponse> => {
-    const response = await apiClient.post<ApiResponse<LoginResponse>>(
-      '/auth/refresh',
-      null,
-      {
-        params: { refreshToken },
+      // Check if response.data has the expected structure
+      if (response.data && response.data.accessToken) {
+        console.log('🟢 authService.login - Found accessToken in response.data');
+      } else {
+        console.log('🔴 authService.login - No accessToken in response.data');
       }
-    );
-    return response.data.data;
+
+      const result = response.data;
+      console.log('🟢 authService.login - Returning result:', result);
+      console.log('🟢 authService.login - Result type:', typeof result);
+
+      // Check if there's double nesting
+      if (result && result.data && result.data.accessToken) {
+        return result.data; // Return the inner data object
+      } else if (result && result.accessToken) {
+        return result; // Return as-is if accessToken is at top level
+      } else {
+        console.error('🔴 Unexpected response structure:', result);
+        throw new Error('Invalid response format');
+      }
+
+    } catch (error) {
+      console.error('🔴 authService.login - Error caught:', error);
+      throw error;
+    }
   },
 
-  /**
-   * Verify email with token
-   */
+  // ... rest of your methods (keep them as they are)
+  register: async (data: RegisterData): Promise<void> => {
+    await apiClient.post<any>('/auth/register', data);
+  },
+
+  logout: async (): Promise<void> => {
+    await apiClient.post<any>('/auth/logout');
+  },
+
+  refreshToken: async (refreshToken: string): Promise<LoginResponse> => {
+    const response = await apiClient.post<any>('/auth/refresh', null, {
+      params: { refreshToken },
+    });
+    return response.data;
+  },
+
   verifyEmail: async (token: string): Promise<void> => {
-    await apiClient.get<ApiResponse<void>>('/auth/verify-email', {
+    await apiClient.get<any>('/auth/verify-email', {
       params: { token },
     });
   },
 
-  /**
-   * Resend verification email
-   */
   resendVerificationEmail: async (email: string): Promise<void> => {
-    await apiClient.post<ApiResponse<void>>('/auth/resend-verification', null, {
+    await apiClient.post<any>('/auth/resend-verification', null, {
       params: { email },
     });
   },
 
-  /**
-   * Request password reset
-   */
   forgotPassword: async (email: string): Promise<void> => {
-    await apiClient.post<ApiResponse<void>>('/auth/forgot-password', null, {
+    await apiClient.post<any>('/auth/forgot-password', null, {
       params: { email },
     });
   },
 
-  /**
-   * Reset password with token
-   */
   resetPassword: async (token: string, newPassword: string): Promise<void> => {
-    await apiClient.post<ApiResponse<void>>('/auth/reset-password', null, {
+    await apiClient.post<any>('/auth/reset-password', null, {
       params: { token, newPassword },
     });
   },
 
-  /**
-   * Change password for authenticated user
-   */
   changePassword: async (data: ChangePasswordRequest): Promise<void> => {
-    await apiClient.post<ApiResponse<void>>('/auth/change-password', data);
+    await apiClient.post<any>('/auth/change-password', data);
   },
 };

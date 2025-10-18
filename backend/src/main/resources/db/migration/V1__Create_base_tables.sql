@@ -56,7 +56,7 @@ CREATE INDEX idx_users_created_at ON users(created_at);
 ALTER TABLE users ADD CONSTRAINT chk_users_role 
     CHECK (role IN ('STUDENT', 'INSTRUCTOR', 'ADMIN', 'SUPER_ADMIN'));
 ALTER TABLE users ADD CONSTRAINT chk_users_status 
-    CHECK (status IN ('ACTIVE', 'INACTIVE', 'SUSPENDED', 'DELETED'));
+    CHECK (status IN ('ACTIVE', 'INACTIVE', 'SUSPENDED','PENDING_VERIFICATION', 'DELETED'));
 ALTER TABLE users ADD CONSTRAINT chk_users_failed_attempts 
     CHECK (failed_login_attempts >= 0);
 

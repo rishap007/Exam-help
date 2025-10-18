@@ -10,7 +10,7 @@ export interface CheckboxProps
 
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, label, error, id, ...props }, ref) => {
-    const checkboxId = id || label?.toLowerCase().replace(/\s+/g, '-');
+    const checkboxId = id || label?.toLowerCase().replace(/\s+/g, '-') || 'checkbox';
 
     return (
       <div className="space-y-2">
@@ -23,9 +23,10 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               ref={ref}
               {...props}
             />
-            <div
+            <label
+              htmlFor={checkboxId}
               className={cn(
-                'flex h-5 w-5 items-center justify-center rounded border-2 border-input ring-offset-background transition-colors',
+                'flex h-5 w-5 items-center justify-center rounded border-2 border-input ring-offset-background transition-colors cursor-pointer',
                 'peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2',
                 'peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground',
                 'peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
@@ -34,12 +35,12 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               )}
             >
               <Check className="h-3.5 w-3.5 opacity-0 transition-opacity peer-checked:opacity-100" />
-            </div>
+            </label>
           </div>
           {label && (
             <label
               htmlFor={checkboxId}
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
             >
               {label}
             </label>
@@ -50,6 +51,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     );
   }
 );
+
 Checkbox.displayName = 'Checkbox';
 
 export { Checkbox };
