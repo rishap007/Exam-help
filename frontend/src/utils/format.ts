@@ -110,3 +110,68 @@ export function formatFileSize(bytes: number, decimals: number = 2): string {
   
   return `${formattedSize} ${sizes[safeIndex]}`;
 }
+
+// ✅ NEW FUNCTIONS - Added to fix the TypeScript error
+
+/**
+ * Format currency value
+ * @param amount - Amount to format
+ * @param currency - Currency code (default: 'USD')
+ * @param locale - Locale for formatting (default: 'en-US')
+ * @returns Formatted currency string
+ */
+export function formatCurrency(
+  amount: number,
+  currency: string = 'USD',
+  locale: string = 'en-US'
+): string {
+  if (amount === 0) return 'Free';
+  
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
+/**
+ * Format number with commas
+ * @param num - Number to format
+ * @returns Formatted number string
+ */
+export function formatNumber(num: number): string {
+  return new Intl.NumberFormat().format(num);
+}
+
+/**
+ * Format duration in minutes to readable format
+ * @param minutes - Duration in minutes
+ * @returns Formatted duration string
+ */
+export function formatDuration(minutes: number): string {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  
+  if (hours === 0) return `${mins}m`;
+  if (mins === 0) return `${hours}h`;
+  
+  return `${hours}h ${mins}m`;
+}
+
+/**
+ * Format date to relative time
+ * @param date - Date to format
+ * @returns Relative time string
+ */
+export function formatRelativeTime(date: Date | string): string {
+  const now = new Date();
+  const targetDate = typeof date === 'string' ? new Date(date) : date;
+  const diffInSeconds = Math.floor((now.getTime() - targetDate.getTime()) / 1000);
+  
+  if (diffInSeconds < 60) return 'just now';
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+  
+  return `${Math.floor(diffInSeconds / 86400)}d ago`;
+}
