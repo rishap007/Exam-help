@@ -4,40 +4,119 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* Background & Foreground */
+    --background: 0 0% 100%;                    /* Pure white background */
+    --foreground: 220 13% 18%;                  /* Professional dark gray text */
+    
+    /* Primary Brand Colors - Professional Blue */
+    --primary: 220 90% 48%;                     /* Trustworthy blue (#1e40af) */
+    --primary-foreground: 0 0% 100%;            /* White text on primary */
+    
+    /* Secondary Colors - Clean Grays */
+    --secondary: 220 13% 95%;                   /* Very light gray background */
+    --secondary-foreground: 220 13% 18%;        /* Dark text on secondary */
+    
+    /* Muted Colors - Professional Text */
+    --muted: 220 13% 95%;                       /* Light muted background */
+    --muted-foreground: 220 9% 46%;             /* Medium gray text */
+    
+    /* Accent Colors - Subtle Highlights */
+    --accent: 220 13% 91%;                      /* Subtle accent background */
+    --accent-foreground: 220 13% 18%;           /* Dark text on accent */
+    
+    /* Success & Trust Colors */
+    --success: 142 71% 45%;                     /* Professional green */
+    --success-foreground: 0 0% 100%;            /* White text on success */
+    
+    /* Warning - Attention Colors */
+    --warning: 38 92% 50%;                      /* Professional orange */
+    --warning-foreground: 0 0% 100%;            /* White text on warning */
+    
+    /* Destructive - Error Colors */
+    --destructive: 0 75% 60%;                   /* Professional red */
+    --destructive-foreground: 0 0% 100%;        /* White text on error */
+    
+    /* Border & Input Colors */
+    --border: 220 13% 85%;                      /* Light professional border */
+    --input: 220 13% 85%;                       /* Input border color */
+    --ring: 220 90% 48%;                        /* Focus ring (same as primary) */
+    
+    /* Border Radius */
+    --radius: 0.5rem;                           /* Consistent rounded corners */
   }
  
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    /* Dark mode - Professional Dark Theme */
+    --background: 220 13% 9%;                   /* Professional dark background */
+    --foreground: 220 13% 95%;                  /* Light text in dark mode */
+    
+    --primary: 220 90% 56%;                     /* Brighter blue for dark mode */
+    --primary-foreground: 220 13% 9%;           /* Dark text on primary */
+    
+    --secondary: 220 13% 15%;                   /* Dark secondary background */
+    --secondary-foreground: 220 13% 95%;        /* Light text on secondary */
+    
+    --muted: 220 13% 15%;                       /* Dark muted background */
+    --muted-foreground: 220 9% 65%;             /* Medium light text */
+    
+    --accent: 220 13% 20%;                      /* Dark accent background */
+    --accent-foreground: 220 13% 95%;           /* Light text on accent */
+    
+    --success: 142 71% 55%;                     /* Slightly brighter green */
+    --success-foreground: 220 13% 9%;           /* Dark text on success */
+    
+    --warning: 38 92% 60%;                      /* Slightly brighter orange */
+    --warning-foreground: 220 13% 9%;           /* Dark text on warning */
+    
+    --destructive: 0 75% 70%;                   /* Slightly brighter red */
+    --destructive-foreground: 220 13% 9%;       /* Dark text on error */
+    
+    --border: 220 13% 20%;                      /* Dark border */
+    --input: 220 13% 20%;                       /* Dark input border */
+    --ring: 220 90% 56%;                        /* Focus ring */
+  }
+}
+
+/* Custom Professional Classes */
+@layer components {
+  /* Professional Button Styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 
+           transition-colors duration-200 font-medium;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground border border-border 
+           hover:bg-accent transition-colors duration-200 font-medium;
+  }
+  
+  /* Professional Card Styles */
+  .card-professional {
+    @apply bg-background border border-border rounded-lg shadow-sm 
+           hover:shadow-md transition-shadow duration-200;
+  }
+  
+  /* Professional Text Styles */
+  .text-professional {
+    @apply text-foreground leading-relaxed;
+  }
+  
+  .text-muted-professional {
+    @apply text-muted-foreground;
+  }
+  
+  /* Professional Section Spacing */
+  .section-professional {
+    @apply py-16 md:py-20;
+  }
+  
+  /* Trust-building gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 90% 42%) 100%);
+  }
+  
+  .gradient-success {
+    background: linear-gradient(135deg, hsl(var(--success)) 0%, hsl(142 71% 38%) 100%);
   }
 }
 
@@ -45,7 +124,45 @@
   * {
     @apply border-border;
   }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  
+  /* Professional Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground font-semibold leading-tight;
+  }
+  
+  /* Professional Link Styles */
+  a {
+    @apply transition-colors duration-200;
+  }
+  
+  /* Professional Focus Styles */
+  button:focus-visible, 
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2;
+  }
+}
+
+/* Professional Utility Classes */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 90% 42%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .shadow-professional {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .shadow-professional-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
 }

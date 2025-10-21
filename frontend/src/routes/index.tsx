@@ -18,37 +18,38 @@ import { InstructorDashboard } from '@/pages/dashboard/InstructorDashboard';
 import { CoursesListPage } from '@/pages/courses/CourseListPage';
 import { CourseDetailPage } from '@/pages/courses/CourseDetailPage';
 import { MyCoursesPage } from '@/pages/courses/MyCoursesPage';
+import { HomePage } from '@/pages/home/HomePage';
 
 // Placeholder components
 const AdminDashboard = () => <div className="p-8">Admin Dashboard - Coming Soon</div>;
 const ProfilePage = () => <div className="p-8">Profile Page - Coming Soon</div>;
 const SettingsPage = () => <div className="p-8">Settings - Coming Soon</div>;
 
-const HomePage = () => (
-  <div className="flex h-screen items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold text-gradient">EduPlatform</h1>
-      <p className="mt-4 text-muted-foreground">
-        Your Learning Management System
-      </p>
-      <div className="mt-8 space-x-4">
-        {/* ✅ Fixed: Use Link instead of <a> */}
-        <Link
-          to="/login"
-          className="rounded-md bg-primary px-6 py-3 text-white hover:bg-primary/90 inline-block"
-        >
-          Login
-        </Link>
-        <Link
-          to="/register"
-          className="rounded-md border border-primary px-6 py-3 text-primary hover:bg-primary/10 inline-block"
-        >
-          Register
-        </Link>
-      </div>
-    </div>
-  </div>
-);
+// const HomePage = () => (
+//   <div className="flex h-screen items-center justify-center">
+//     <div className="text-center">
+//       <h1 className="text-4xl font-bold text-gradient">EduPlatform</h1>
+//       <p className="mt-4 text-muted-foreground">
+//         Your Learning Management System
+//       </p>
+//       <div className="mt-8 space-x-4">
+//         {/* ✅ Fixed: Use Link instead of <a> */}
+//         <Link
+//           to="/login"
+//           className="rounded-md bg-primary px-6 py-3 text-white hover:bg-primary/90 inline-block"
+//         >
+//           Login
+//         </Link>
+//         <Link
+//           to="/register"
+//           className="rounded-md border border-primary px-6 py-3 text-primary hover:bg-primary/10 inline-block"
+//         >
+//           Register
+//         </Link>
+//       </div>
+//     </div>
+//   </div>
+// );
 
 // Protected Route Component
 interface ProtectedRouteProps {
