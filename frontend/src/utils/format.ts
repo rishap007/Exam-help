@@ -175,3 +175,56 @@ export function formatRelativeTime(date: Date | string): string {
   
   return `${Math.floor(diffInSeconds / 86400)}d ago`;
 }
+/**
+ * Format date to readable string
+ * @param date - Date to format (Date object, string, or number)
+ * @param options - Intl.DateTimeFormat options
+ * @returns Formatted date string
+ */
+export function formatDate(
+  date: Date | string | number,
+  options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }
+): string {
+  if (!date) return '';
+  
+  const dateObj = typeof date === 'string' || typeof date === 'number' 
+    ? new Date(date) 
+    : date;
+    
+  if (isNaN(dateObj.getTime())) return 'Invalid Date';
+  
+  return new Intl.DateTimeFormat('en-US', options).format(dateObj);
+}
+
+/**
+ * Format date with time
+ * @param date - Date to format
+ * @returns Formatted date with time string
+ */
+export function formatDateTime(date: Date | string | number): string {
+  return formatDate(date, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+}
+
+/**
+ * Format date in short format (MM/DD/YYYY)
+ * @param date - Date to format
+ * @returns Short formatted date string
+ */
+export function formatDateShort(date: Date | string | number): string {
+  return formatDate(date, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+}
