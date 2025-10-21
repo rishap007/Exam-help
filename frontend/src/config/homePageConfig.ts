@@ -53,38 +53,81 @@ export interface SuccessStory {
   testimonial: string;
 }
 
-// Configuration Data
-
+// ==========================================
+// PROFESSIONAL PROMOTIONAL BANNERS
+// ==========================================
 
 export const BANNER_SLIDES: BannerSlide[] = [
+  // Diwali Special Offer Banner
   {
     id: 1,
-    title: 'Start Your Learning Journey',
-    subtitle: 'Join thousands of students achieving their dreams',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=500&fit=crop',
-    buttonText: 'Explore Courses',
-    buttonLink: '/courses',
-    gradient: 'from-blue-600/90 to-purple-600/90'
+    title: '🪔 Diwali Special Offer!',
+    subtitle: 'Light up your future with UPTO 80% OFF on all courses - Limited Time Only!',
+    image: 'https://images.unsplash.com/photo-1606278702839-fce4d16c5b24?w=1200&h=500&fit=crop',
+    buttonText: 'Grab Offer Now',
+    buttonLink: '/diwali-offer',
+    gradient: 'from-black/60 to-black/40'
   },
+  
+  // JEE Foundation Promotional Banner
   {
     id: 2,
+    title: 'JEE 2026 Foundation',
+    subtitle: 'Start Early, Succeed Big! Get 70% OFF on JEE Foundation Courses + Free Test Series',
+    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=1200&h=500&fit=crop',
+    buttonText: 'Enroll at ₹999',
+    buttonLink: '/courses/jee-foundation',
+    gradient: 'from-black/60 to-black/40'
+  },
+
+  // NEET Crash Course Banner
+  {
+    id: 3,
+    title: 'NEET 2025 Crash Course',
+    subtitle: 'Last-minute preparation by Top Faculty - Only ₹1,999 (Was ₹4,999)',
+    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&h=500&fit=crop',
+    buttonText: 'Join Now - 60% OFF',
+    buttonLink: '/courses/neet-crash',
+    gradient: 'from-black/60 to-black/40'
+  },
+
+  // Free Trial Banner
+  {
+    id: 4,
+    title: 'Start Your Journey FREE!',
+    subtitle: 'Experience quality education - Get 7-day free trial + Free doubt solving',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=500&fit=crop',
+    buttonText: 'Start Free Trial',
+    buttonLink: '/free-trial',
+    gradient: 'from-black/60 to-black/40'
+  },
+
+  // Scholarship Banner
+  {
+    id: 5,
+    title: '🏆 Scholarship Test',
+    subtitle: 'Win up to 100% Scholarship! Register for Classtopper Scholarship Test 2025',
+    image: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=1200&h=500&fit=crop',
+    buttonText: 'Register Free',
+    buttonLink: '/scholarship-test',
+    gradient: 'from-black/60 to-black/40'
+  },
+
+  // Board Exam Excellence Banner
+  {
+    id: 6,
     title: 'Board Exam Excellence',
-    subtitle: 'Expert faculty for Classes 6-12',
+    subtitle: 'Score 95%+ in Class 10th & 12th Boards - Expert Faculty & Proven Methods',
     image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1200&h=500&fit=crop',
     buttonText: 'View Programs',
     buttonLink: '/courses?category=boards',
-    gradient: 'from-green-600/90 to-teal-600/90'
-  },
-  {
-    id: 3,
-    title: 'JEE Foundation Courses',
-    subtitle: 'Build a strong foundation for engineering entrance',
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1200&h=500&fit=crop',
-    buttonText: 'Get Started',
-    buttonLink: '/courses?category=jee',
-    gradient: 'from-orange-600/90 to-red-600/90'
+    gradient: 'from-black/60 to-black/40'
   },
 ];
+
+// ==========================================
+// PROFESSIONAL TEACHER DATA
+// ==========================================
 
 export const TEACHER_DATA: TeacherData = {
   tagline: "Learn from India's Top Faculty",
@@ -95,78 +138,105 @@ export const TEACHER_DATA: TeacherData = {
     {
       icon: Clock,
       title: 'Daily Live Classes',
-      description: 'Interactive sessions with real-time doubt solving'
+      description: 'Interactive sessions with real-time doubt solving and personalized attention'
     },
     {
       icon: BookOpen,
-      title: 'Test Papers & Notes',
-      description: 'Comprehensive study material and practice tests'
+      title: 'Complete Study Material',
+      description: 'Comprehensive notes, test papers and previous year questions'
     },
     {
       icon: Users,
-      title: 'Doubt Solving Support',
-      description: '24/7 mentor support for all your queries'
+      title: '24/7 Doubt Support',
+      description: 'Instant doubt resolution through chat, video calls and discussion forums'
     },
     {
       icon: Award,
-      title: 'Proven Track Record',
-      description: '500+ students in top colleges'
+      title: 'Proven Results',
+      description: '500+ students in top colleges with 95% success rate'
     }
   ],
   stats: [
     { value: '15+', label: 'Years Experience' },
     { value: '10,000+', label: 'Students Taught' },
-    { value: '4.9/5', label: 'Rating' }
+    { value: '4.9/5', label: 'Rating' },
+    { value: '95%', label: 'Success Rate' }
   ]
 };
 
+// ==========================================
+// PROFESSIONAL EXAM CATEGORIES
+// ==========================================
+
 export const EXAM_CATEGORIES: ExamCategory[] = [
   {
-    id: 'class-10',
-    title: '10th Boards',
-    description: 'CBSE, ICSE & State Boards',
+    id: 'jee-main',
+    title: 'JEE Main & Advanced',
+    description: 'Complete preparation for engineering entrance',
+    icon: '🚀',
+    color: 'from-blue-500 to-blue-600',
+    link: '/courses?category=jee',
+    subjects: ['Physics', 'Chemistry', 'Mathematics']
+  },
+  {
+    id: 'neet',
+    title: 'NEET UG',
+    description: 'Medical entrance exam preparation',
+    icon: '🏥',
+    color: 'from-green-500 to-green-600',
+    link: '/courses?category=neet',
+    subjects: ['Physics', 'Chemistry', 'Biology']
+  },
+  {
+    id: 'class-12',
+    title: 'Class 12 Boards',
+    description: 'CBSE, ISC & State Board preparation',
     icon: '📚',
-    color: 'from-blue-500 to-cyan-500',
+    color: 'from-purple-500 to-purple-600',
+    link: '/courses?category=class-12',
+    subjects: ['PCM', 'PCB', 'Commerce']
+  },
+  {
+    id: 'class-10',
+    title: 'Class 10 Boards',
+    description: 'Strong foundation for board exams',
+    icon: '🎯',
+    color: 'from-indigo-500 to-indigo-600',
     link: '/courses?category=class-10',
     subjects: ['Math', 'Science', 'Social Studies']
   },
   {
-    id: 'class-12',
-    title: '12th Boards',
-    description: 'PCM, PCB & Commerce',
-    icon: '🎓',
-    color: 'from-purple-500 to-pink-500',
-    link: '/courses?category=class-12',
-    subjects: ['Physics', 'Chemistry', 'Math']
+    id: 'foundation',
+    title: 'Foundation (6-9)',
+    description: 'Strong conceptual foundation',
+    icon: '⭐',
+    color: 'from-orange-500 to-orange-600',
+    link: '/courses?category=foundation',
+    subjects: ['Math', 'Science', 'English']
   },
   {
-    id: 'school-prep',
-    title: 'School Prep',
-    description: 'Classes 6-9 Foundation',
-    icon: '✏️',
-    color: 'from-green-500 to-teal-500',
-    link: '/courses?category=school',
+    id: 'test-series',
+    title: 'Test Series',
+    description: 'Mock tests & practice papers',
+    icon: '📝',
+    color: 'from-red-500 to-red-600',
+    link: '/test-series',
     subjects: ['All Subjects']
-  },
-  {
-    id: 'jee-foundation',
-    title: 'JEE Foundation',
-    description: 'Classes 9-10 JEE Prep',
-    icon: '🚀',
-    color: 'from-orange-500 to-red-500',
-    link: '/courses?category=jee-foundation',
-    subjects: ['Math', 'Physics', 'Chemistry']
   }
 ];
+
+// ==========================================
+// SUCCESS STORIES WITH BETTER DATA
+// ==========================================
 
 export const SUCCESS_STORIES: SuccessStory[] = [
   {
     id: 1,
     studentName: 'Rahul Kumar',
-    achievement: 'AIR 47 - JEE Advanced',
+    achievement: 'AIR 47 - JEE Advanced 2024',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
     score: '99.8%',
-    testimonial: 'The faculty and study material helped me crack JEE with confidence.'
+    testimonial: 'Classtopper\'s faculty and study material helped me crack JEE with confidence. The daily practice tests were game-changers!'
   },
   {
     id: 2,
@@ -174,14 +244,73 @@ export const SUCCESS_STORIES: SuccessStory[] = [
     achievement: '98.2% - CBSE Class 12',
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
     score: '98.2%',
-    testimonial: 'Excellent teaching methodology and personalized attention.'
+    testimonial: 'Excellent teaching methodology and personalized attention. Best investment in my academic career.'
   },
   {
     id: 3,
     studentName: 'Arjun Patel',
-    achievement: 'AIR 123 - NEET',
+    achievement: 'AIR 123 - NEET 2024',
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop',
     score: '99.5%',
-    testimonial: 'Best platform for medical entrance preparation.'
+    testimonial: 'Best platform for medical entrance preparation. The doubt-solving sessions were incredibly helpful.'
+  },
+  {
+    id: 4,
+    studentName: 'Ananya Sharma',
+    achievement: '96.8% - Class 10 CBSE',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop',
+    score: '96.8%',
+    testimonial: 'Thanks to Classtopper, I scored excellent marks and built a strong foundation for Class 11.'
+  },
+  {
+    id: 5,
+    studentName: 'Vikash Gupta',
+    achievement: 'AIR 89 - JEE Main 2024',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop',
+    score: '99.2%',
+    testimonial: 'The structured approach and regular assessments helped me stay on track throughout my preparation.'
   }
 ];
+
+// ==========================================
+// ADDITIONAL PROMOTIONAL DATA
+// ==========================================
+
+export const SPECIAL_OFFERS = [
+  {
+    id: 'diwali-2025',
+    title: 'Diwali Festival Sale',
+    description: 'Up to 80% OFF on all courses',
+    discount: '80%',
+    validUntil: '2025-11-15',
+    courses: ['JEE', 'NEET', 'Boards'],
+    featured: true
+  },
+  {
+    id: 'scholarship-test',
+    title: 'Scholarship Test 2025',
+    description: 'Win up to 100% scholarship',
+    discount: '100%',
+    validUntil: '2025-12-31',
+    courses: ['All Courses'],
+    featured: true
+  },
+  {
+    id: 'free-trial',
+    title: '7-Day Free Trial',
+    description: 'Experience premium education for free',
+    discount: 'FREE',
+    validUntil: 'Ongoing',
+    courses: ['All Courses'],
+    featured: false
+  }
+];
+
+export const TRUST_INDICATORS = {
+  totalStudents: '50,000+',
+  successRate: '95%',
+  topRankers: '1,200+',
+  yearsOfExperience: '10+',
+  averageRating: '4.9/5',
+  coursesOffered: '50+'
+};

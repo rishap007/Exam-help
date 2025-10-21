@@ -4,119 +4,119 @@
 
 @layer base {
   :root {
-    /* Background & Foreground */
+    /* Clean White Backgrounds - PW Style */
     --background: 0 0% 100%;                    /* Pure white background */
-    --foreground: 220 13% 18%;                  /* Professional dark gray text */
+    --foreground: 0 0% 9%;                      /* Almost black text for maximum contrast */
     
-    /* Primary Brand Colors - Professional Blue */
-    --primary: 220 90% 48%;                     /* Trustworthy blue (#1e40af) */
+    /* Primary Colors - Clean Blue Accents */
+    --primary: 220 100% 50%;                    /* Clean blue (#0066ff) */
     --primary-foreground: 0 0% 100%;            /* White text on primary */
     
-    /* Secondary Colors - Clean Grays */
-    --secondary: 220 13% 95%;                   /* Very light gray background */
-    --secondary-foreground: 220 13% 18%;        /* Dark text on secondary */
+    /* Secondary - Very Light Grays */
+    --secondary: 0 0% 98%;                      /* Very light gray (#fafafa) */
+    --secondary-foreground: 0 0% 9%;            /* Dark text on secondary */
     
-    /* Muted Colors - Professional Text */
-    --muted: 220 13% 95%;                       /* Light muted background */
-    --muted-foreground: 220 9% 46%;             /* Medium gray text */
+    /* Muted - Subtle Grays */
+    --muted: 0 0% 96%;                          /* Light gray (#f5f5f5) */
+    --muted-foreground: 0 0% 45%;               /* Medium gray text */
     
-    /* Accent Colors - Subtle Highlights */
-    --accent: 220 13% 91%;                      /* Subtle accent background */
-    --accent-foreground: 220 13% 18%;           /* Dark text on accent */
+    /* Accent - Clean White with Subtle Tint */
+    --accent: 0 0% 97%;                         /* Very light gray (#f8f8f8) */
+    --accent-foreground: 0 0% 9%;               /* Dark text on accent */
     
-    /* Success & Trust Colors */
-    --success: 142 71% 45%;                     /* Professional green */
+    /* Success - Clean Green */
+    --success: 120 100% 35%;                    /* Clean green */
     --success-foreground: 0 0% 100%;            /* White text on success */
     
-    /* Warning - Attention Colors */
-    --warning: 38 92% 50%;                      /* Professional orange */
+    /* Warning - Clean Orange */
+    --warning: 35 100% 50%;                     /* Clean orange */
     --warning-foreground: 0 0% 100%;            /* White text on warning */
     
-    /* Destructive - Error Colors */
-    --destructive: 0 75% 60%;                   /* Professional red */
+    /* Destructive - Clean Red */
+    --destructive: 0 100% 50%;                  /* Clean red */
     --destructive-foreground: 0 0% 100%;        /* White text on error */
     
-    /* Border & Input Colors */
-    --border: 220 13% 85%;                      /* Light professional border */
-    --input: 220 13% 85%;                       /* Input border color */
-    --ring: 220 90% 48%;                        /* Focus ring (same as primary) */
+    /* Borders - Very Light Gray */
+    --border: 0 0% 90%;                         /* Light border (#e5e5e5) */
+    --input: 0 0% 90%;                          /* Input border */
+    --ring: 220 100% 50%;                       /* Focus ring (same as primary) */
     
     /* Border Radius */
-    --radius: 0.5rem;                           /* Consistent rounded corners */
+    --radius: 0.375rem;                         /* Slightly smaller radius for clean look */
   }
  
   .dark {
-    /* Dark mode - Professional Dark Theme */
-    --background: 220 13% 9%;                   /* Professional dark background */
-    --foreground: 220 13% 95%;                  /* Light text in dark mode */
+    /* Keep dark mode minimal since PW focuses on light theme */
+    --background: 0 0% 9%;                      /* Dark background */
+    --foreground: 0 0% 98%;                     /* Light text */
     
-    --primary: 220 90% 56%;                     /* Brighter blue for dark mode */
-    --primary-foreground: 220 13% 9%;           /* Dark text on primary */
+    --primary: 220 100% 60%;                    /* Slightly brighter blue */
+    --primary-foreground: 0 0% 9%;              /* Dark text on primary */
     
-    --secondary: 220 13% 15%;                   /* Dark secondary background */
-    --secondary-foreground: 220 13% 95%;        /* Light text on secondary */
+    --secondary: 0 0% 15%;                      /* Dark secondary */
+    --secondary-foreground: 0 0% 98%;           /* Light text */
     
-    --muted: 220 13% 15%;                       /* Dark muted background */
-    --muted-foreground: 220 9% 65%;             /* Medium light text */
+    --muted: 0 0% 15%;                          /* Dark muted */
+    --muted-foreground: 0 0% 65%;               /* Medium light text */
     
-    --accent: 220 13% 20%;                      /* Dark accent background */
-    --accent-foreground: 220 13% 95%;           /* Light text on accent */
+    --accent: 0 0% 20%;                         /* Dark accent */
+    --accent-foreground: 0 0% 98%;              /* Light text */
     
-    --success: 142 71% 55%;                     /* Slightly brighter green */
-    --success-foreground: 220 13% 9%;           /* Dark text on success */
-    
-    --warning: 38 92% 60%;                      /* Slightly brighter orange */
-    --warning-foreground: 220 13% 9%;           /* Dark text on warning */
-    
-    --destructive: 0 75% 70%;                   /* Slightly brighter red */
-    --destructive-foreground: 220 13% 9%;       /* Dark text on error */
-    
-    --border: 220 13% 20%;                      /* Dark border */
-    --input: 220 13% 20%;                       /* Dark input border */
-    --ring: 220 90% 56%;                        /* Focus ring */
+    --border: 0 0% 20%;                         /* Dark border */
+    --input: 0 0% 20%;                          /* Dark input border */
+    --ring: 220 100% 60%;                       /* Focus ring */
   }
 }
 
-/* Custom Professional Classes */
+/* PW-Style Clean Components */
 @layer components {
-  /* Professional Button Styles */
+  /* Clean White Button Styles */
   .btn-primary {
     @apply bg-primary text-primary-foreground hover:bg-primary/90 
-           transition-colors duration-200 font-medium;
+           transition-all duration-200 font-medium shadow-sm hover:shadow-md;
   }
   
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground border border-border 
-           hover:bg-accent transition-colors duration-200 font-medium;
+    @apply bg-white text-foreground border border-border 
+           hover:bg-accent transition-all duration-200 font-medium shadow-sm hover:shadow-md;
   }
   
-  /* Professional Card Styles */
-  .card-professional {
-    @apply bg-background border border-border rounded-lg shadow-sm 
-           hover:shadow-md transition-shadow duration-200;
+  .btn-outline {
+    @apply bg-transparent border-2 border-primary text-primary 
+           hover:bg-primary hover:text-white transition-all duration-200 font-medium;
   }
   
-  /* Professional Text Styles */
-  .text-professional {
+  /* Clean White Card Styles */
+  .card-clean {
+    @apply bg-white border border-border rounded-lg shadow-sm 
+           hover:shadow-lg transition-all duration-200;
+  }
+  
+  /* PW-Style Text */
+  .text-clean {
     @apply text-foreground leading-relaxed;
   }
   
-  .text-muted-professional {
+  .text-muted-clean {
     @apply text-muted-foreground;
   }
   
-  /* Professional Section Spacing */
-  .section-professional {
-    @apply py-16 md:py-20;
+  /* Clean Section Spacing */
+  .section-clean {
+    @apply py-12 md:py-16 bg-white;
   }
   
-  /* Trust-building gradient backgrounds */
+  .section-alt {
+    @apply py-12 md:py-16 bg-secondary;
+  }
+  
+  /* Clean Gradients - Very Subtle */
+  .gradient-clean {
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  }
+  
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 90% 42%) 100%);
-  }
-  
-  .gradient-success {
-    background: linear-gradient(135deg, hsl(var(--success)) 0%, hsl(142 71% 38%) 100%);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 100% 45%) 100%);
   }
 }
 
@@ -126,43 +126,105 @@
   }
   
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-white text-foreground font-sans antialiased;
   }
   
-  /* Professional Typography */
+  /* Clean Typography */
   h1, h2, h3, h4, h5, h6 {
     @apply text-foreground font-semibold leading-tight;
   }
   
-  /* Professional Link Styles */
+  h1 { @apply text-3xl md:text-4xl; }
+  h2 { @apply text-2xl md:text-3xl; }
+  h3 { @apply text-xl md:text-2xl; }
+  
+  /* Clean Link Styles */
   a {
-    @apply transition-colors duration-200;
+    @apply transition-colors duration-200 hover:text-primary;
   }
   
-  /* Professional Focus Styles */
+  /* Clean Focus Styles */
   button:focus-visible, 
   a:focus-visible,
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2;
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-white;
+  }
+  
+  /* Clean Input Styles */
+  input, textarea, select {
+    @apply bg-white border border-input rounded-md px-3 py-2 text-sm
+           focus:ring-2 focus:ring-primary focus:border-transparent;
   }
 }
 
-/* Professional Utility Classes */
+/* Clean Utility Classes */
 @layer utilities {
-  .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 90% 42%) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Clean Shadows */
+  .shadow-clean {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
   }
   
-  .shadow-professional {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  .shadow-clean-lg {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   }
   
-  .shadow-professional-lg {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  .shadow-clean-xl {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* Clean Backgrounds */
+  .bg-clean {
+    @apply bg-white;
+  }
+  
+  .bg-clean-alt {
+    @apply bg-secondary;
+  }
+  
+  /* Clean Text Colors */
+  .text-clean-primary {
+    @apply text-primary;
+  }
+  
+  .text-clean-muted {
+    @apply text-muted-foreground;
+  }
+  
+  /* Clean Borders */
+  .border-clean {
+    @apply border-border;
+  }
+  
+  .divide-clean > * + * {
+    @apply border-t border-border;
+  }
+}
+
+/* PW-Style Clean Overrides */
+@layer components {
+  /* Clean Navigation */
+  .nav-clean {
+    @apply bg-white/95 backdrop-blur-sm border-b border-border;
+  }
+  
+  /* Clean Hero Section */
+  .hero-clean {
+    @apply bg-white;
+  }
+  
+  /* Clean Cards */
+  .course-card {
+    @apply bg-white border border-border rounded-lg p-6 shadow-clean hover:shadow-clean-lg transition-all duration-200;
+  }
+  
+  /* Clean Buttons */
+  .cta-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 shadow-clean hover:shadow-clean-lg transition-all duration-200;
+  }
+  
+  .cta-secondary {
+    @apply bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-all duration-200;
   }
 }
