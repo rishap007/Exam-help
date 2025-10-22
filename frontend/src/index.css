@@ -4,119 +4,36 @@
 
 @layer base {
   :root {
-    /* Clean White Backgrounds - PW Style */
-    --background: 0 0% 100%;                    /* Pure white background */
-    --foreground: 0 0% 9%;                      /* Almost black text for maximum contrast */
+    /* Clean White System */
+    --background: 0 0% 100%;                    /* Pure white everywhere */
+    --foreground: 0 0% 0%;                      /* Pure black text */
     
-    /* Primary Colors - Clean Blue Accents */
-    --primary: 220 100% 50%;                    /* Clean blue (#0066ff) */
-    --primary-foreground: 0 0% 100%;            /* White text on primary */
+    /* Blue Primary */
+    --primary: 217 91% 60%;                     /* Blue (#3b82f6) */
+    --primary-foreground: 0 0% 100%;            /* White text on blue */
     
-    /* Secondary - Very Light Grays */
-    --secondary: 0 0% 98%;                      /* Very light gray (#fafafa) */
-    --secondary-foreground: 0 0% 9%;            /* Dark text on secondary */
+    /* White Secondary */
+    --secondary: 0 0% 100%;                     /* Pure white */
+    --secondary-foreground: 0 0% 0%;            /* Black text */
     
-    /* Muted - Subtle Grays */
-    --muted: 0 0% 96%;                          /* Light gray (#f5f5f5) */
-    --muted-foreground: 0 0% 45%;               /* Medium gray text */
+    /* Light Gray for Subtle Areas */
+    --muted: 0 0% 98%;                          /* Very light gray (#fafafa) */
+    --muted-foreground: 0 0% 30%;               /* Dark gray text */
     
-    /* Accent - Clean White with Subtle Tint */
-    --accent: 0 0% 97%;                         /* Very light gray (#f8f8f8) */
-    --accent-foreground: 0 0% 9%;               /* Dark text on accent */
+    /* White Accent */
+    --accent: 0 0% 97%;                         /* Slightly off-white */
+    --accent-foreground: 0 0% 0%;               /* Black text */
     
-    /* Success - Clean Green */
-    --success: 120 100% 35%;                    /* Clean green */
-    --success-foreground: 0 0% 100%;            /* White text on success */
+    /* Blue Success */
+    --success: 217 91% 60%;                     /* Blue for success */
+    --success-foreground: 0 0% 100%;            /* White text */
     
-    /* Warning - Clean Orange */
-    --warning: 35 100% 50%;                     /* Clean orange */
-    --warning-foreground: 0 0% 100%;            /* White text on warning */
+    /* Light Borders */
+    --border: 0 0% 90%;                         /* Light gray border */
+    --input: 0 0% 90%;                          /* Light gray input border */
+    --ring: 217 91% 60%;                        /* Blue focus ring */
     
-    /* Destructive - Clean Red */
-    --destructive: 0 100% 50%;                  /* Clean red */
-    --destructive-foreground: 0 0% 100%;        /* White text on error */
-    
-    /* Borders - Very Light Gray */
-    --border: 0 0% 90%;                         /* Light border (#e5e5e5) */
-    --input: 0 0% 90%;                          /* Input border */
-    --ring: 220 100% 50%;                       /* Focus ring (same as primary) */
-    
-    /* Border Radius */
-    --radius: 0.375rem;                         /* Slightly smaller radius for clean look */
-  }
- 
-  .dark {
-    /* Keep dark mode minimal since PW focuses on light theme */
-    --background: 0 0% 9%;                      /* Dark background */
-    --foreground: 0 0% 98%;                     /* Light text */
-    
-    --primary: 220 100% 60%;                    /* Slightly brighter blue */
-    --primary-foreground: 0 0% 9%;              /* Dark text on primary */
-    
-    --secondary: 0 0% 15%;                      /* Dark secondary */
-    --secondary-foreground: 0 0% 98%;           /* Light text */
-    
-    --muted: 0 0% 15%;                          /* Dark muted */
-    --muted-foreground: 0 0% 65%;               /* Medium light text */
-    
-    --accent: 0 0% 20%;                         /* Dark accent */
-    --accent-foreground: 0 0% 98%;              /* Light text */
-    
-    --border: 0 0% 20%;                         /* Dark border */
-    --input: 0 0% 20%;                          /* Dark input border */
-    --ring: 220 100% 60%;                       /* Focus ring */
-  }
-}
-
-/* PW-Style Clean Components */
-@layer components {
-  /* Clean White Button Styles */
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 
-           transition-all duration-200 font-medium shadow-sm hover:shadow-md;
-  }
-  
-  .btn-secondary {
-    @apply bg-white text-foreground border border-border 
-           hover:bg-accent transition-all duration-200 font-medium shadow-sm hover:shadow-md;
-  }
-  
-  .btn-outline {
-    @apply bg-transparent border-2 border-primary text-primary 
-           hover:bg-primary hover:text-white transition-all duration-200 font-medium;
-  }
-  
-  /* Clean White Card Styles */
-  .card-clean {
-    @apply bg-white border border-border rounded-lg shadow-sm 
-           hover:shadow-lg transition-all duration-200;
-  }
-  
-  /* PW-Style Text */
-  .text-clean {
-    @apply text-foreground leading-relaxed;
-  }
-  
-  .text-muted-clean {
-    @apply text-muted-foreground;
-  }
-  
-  /* Clean Section Spacing */
-  .section-clean {
-    @apply py-12 md:py-16 bg-white;
-  }
-  
-  .section-alt {
-    @apply py-12 md:py-16 bg-secondary;
-  }
-  
-  /* Clean Gradients - Very Subtle */
-  .gradient-clean {
-    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-  }
-  
-  .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 100% 45%) 100%);
+    --radius: 0.5rem;
   }
 }
 
@@ -126,105 +43,220 @@
   }
   
   body {
-    @apply bg-white text-foreground font-sans antialiased;
+    @apply bg-white text-black;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   
-  /* Clean Typography */
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-foreground font-semibold leading-tight;
-  }
-  
-  h1 { @apply text-3xl md:text-4xl; }
-  h2 { @apply text-2xl md:text-3xl; }
-  h3 { @apply text-xl md:text-2xl; }
-  
-  /* Clean Link Styles */
-  a {
-    @apply transition-colors duration-200 hover:text-primary;
-  }
-  
-  /* Clean Focus Styles */
-  button:focus-visible, 
-  a:focus-visible,
-  input:focus-visible,
-  textarea:focus-visible,
-  select:focus-visible {
-    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-white;
-  }
-  
-  /* Clean Input Styles */
-  input, textarea, select {
-    @apply bg-white border border-input rounded-md px-3 py-2 text-sm
-           focus:ring-2 focus:ring-primary focus:border-transparent;
-  }
-}
-
-/* Clean Utility Classes */
-@layer utilities {
-  /* Clean Shadows */
-  .shadow-clean {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  }
-  
-  .shadow-clean-lg {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  }
-  
-  .shadow-clean-xl {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-  }
-  
-  /* Clean Backgrounds */
-  .bg-clean {
+  /* Ensure all sections have white background */
+  section {
     @apply bg-white;
   }
   
-  .bg-clean-alt {
-    @apply bg-secondary;
-  }
-  
-  /* Clean Text Colors */
-  .text-clean-primary {
-    @apply text-primary;
-  }
-  
-  .text-clean-muted {
-    @apply text-muted-foreground;
-  }
-  
-  /* Clean Borders */
-  .border-clean {
-    @apply border-border;
-  }
-  
-  .divide-clean > * + * {
-    @apply border-t border-border;
+  /* All containers white */
+  .container {
+    @apply bg-white;
   }
 }
 
-/* PW-Style Clean Overrides */
+/* Professional Components */
 @layer components {
-  /* Clean Navigation */
-  .nav-clean {
-    @apply bg-white/95 backdrop-blur-sm border-b border-border;
+  
+  /* White Navigation */
+  .navbar-professional {
+    @apply bg-white border-b border-gray-200 shadow-sm;
   }
   
-  /* Clean Hero Section */
-  .hero-clean {
-    @apply bg-white;
+  /* Blue and Black Navigation Links */
+  .nav-link {
+    @apply text-black hover:text-blue-600 font-medium transition-colors duration-200;
   }
   
-  /* Clean Cards */
-  .course-card {
-    @apply bg-white border border-border rounded-lg p-6 shadow-clean hover:shadow-clean-lg transition-all duration-200;
+  /* Blue Primary Button */
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 
+           font-semibold rounded-lg px-6 py-3 
+           transition-all duration-200 shadow-sm hover:shadow-md
+           border-0;
   }
   
-  /* Clean Buttons */
-  .cta-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 shadow-clean hover:shadow-clean-lg transition-all duration-200;
+  /* White Secondary Button with Black Text */
+  .btn-secondary {
+    @apply bg-white text-black border-2 border-black 
+           hover:bg-black hover:text-white 
+           font-semibold rounded-lg px-6 py-3 
+           transition-all duration-200;
   }
   
-  .cta-secondary {
-    @apply bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg font-medium hover:bg-primary hover:text-white transition-all duration-200;
+  /* Blue Outline Button */
+  .btn-outline {
+    @apply bg-white border-2 border-blue-600 text-blue-600 
+           hover:bg-blue-600 hover:text-white 
+           font-semibold rounded-lg px-6 py-3 
+           transition-all duration-200;
+  }
+  
+  /* White Cards with Light Border */
+  .card-professional {
+    @apply bg-white border border-gray-200 rounded-xl p-6 
+           shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+  
+  /* White Hero Section */
+  .hero-overlay {
+    @apply absolute inset-0 bg-black/50; /* Dark overlay for text readability */
+  }
+  
+  .hero-content {
+    @apply relative z-10 text-white;
+  }
+  
+  .hero-title {
+    @apply text-4xl md:text-6xl font-bold mb-6 text-white;
+  }
+  
+  .hero-subtitle {
+    @apply text-lg md:text-xl mb-8 text-white;
+  }
+  
+  /* All Sections White */
+  .section-white {
+    @apply bg-white py-16 md:py-20;
+  }
+  
+  .section-gray {
+    @apply bg-white py-16 md:py-20; /* Changed to white */
+  }
+  
+  .section-blue {
+    @apply bg-white py-16 md:py-20; /* Changed to white */
+  }
+  
+  /* Black Headings */
+  .heading-primary {
+    @apply text-3xl md:text-4xl font-bold text-black mb-4;
+  }
+  
+  .heading-secondary {
+    @apply text-2xl md:text-3xl font-bold text-black mb-4;
+  }
+  
+  /* Black Body Text */
+  .text-body {
+    @apply text-black leading-relaxed;
+  }
+  
+  .text-muted {
+    @apply text-gray-600;
+  }
+  
+  /* White Dropdown */
+  .dropdown-menu {
+    @apply bg-white border border-gray-200 rounded-xl shadow-xl;
+  }
+  
+  .dropdown-item {
+    @apply flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 
+           transition-colors duration-200 text-black hover:text-blue-600;
+  }
+  
+  /* White Form Fields */
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg 
+           focus:ring-4 focus:ring-blue-200 focus:border-blue-500 
+           transition-all duration-200 bg-white text-black;
+  }
+  
+  /* White Offer Cards */
+  .offer-card {
+    @apply bg-white border border-gray-200 rounded-xl p-6 
+           shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+  
+  .offer-badge {
+    @apply absolute -right-10 top-4 bg-blue-600 text-white px-12 py-1 
+           rotate-45 text-xs font-bold shadow-lg;
+  }
+  
+  /* Blue Stats Section */
+  .stats-container {
+    @apply bg-blue-600 text-white py-16;
+  }
+  
+  .stat-item {
+    @apply text-center;
+  }
+  
+  .stat-number {
+    @apply text-3xl md:text-4xl font-bold mb-2;
+  }
+  
+  .stat-label {
+    @apply text-blue-100 text-sm font-medium;
+  }
+  
+  /* White Category Cards */
+  .category-card {
+    @apply bg-white border border-gray-200 rounded-xl p-6 
+           hover:shadow-lg hover:-translate-y-1 transition-all duration-300
+           cursor-pointer;
+  }
+  
+  .category-icon {
+    @apply w-16 h-16 rounded-xl flex items-center justify-center 
+           text-2xl font-bold text-white mb-4;
+  }
+  
+  /* White Success Cards */
+  .success-card {
+    @apply bg-white border border-gray-200 rounded-xl p-6 
+           shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+  
+  /* White Mobile Menu */
+  .mobile-menu {
+    @apply lg:hidden border-t border-gray-200 bg-white;
+  }
+  
+  .mobile-menu-item {
+    @apply flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 
+           transition-colors duration-200 text-black;
+  }
+
+  /* Force White Backgrounds */
+  .force-white {
+    @apply bg-white !important;
+  }
+  
+  /* Blue Gradient for Logo */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  }
+}
+
+/* Override any colored backgrounds */
+@layer utilities {
+  /* Force white backgrounds */
+  .bg-white-force {
+    background-color: white !important;
+  }
+  
+  /* Blue buttons */
+  .btn-blue {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
+  
+  /* Black buttons */
+  .btn-black {
+    @apply bg-black text-white hover:bg-gray-800;
+  }
+  
+  /* Blue text */
+  .text-blue {
+    @apply text-blue-600;
+  }
+  
+  /* Black text */
+  .text-black-force {
+    color: black !important;
   }
 }

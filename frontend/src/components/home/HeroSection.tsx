@@ -8,7 +8,7 @@ export const HeroSection = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % BANNER_SLIDES.length);
-    }, 4000); // Slower transition for reading offers
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -22,116 +22,207 @@ export const HeroSection = () => {
 
   const currentBanner = BANNER_SLIDES[currentSlide];
 
+  // Simple solid colors - guaranteed visible
+  const backgrounds = [
+    '#1e40af', // Solid blue
+    '#059669', // Solid green
+    '#dc2626', // Solid red
+    '#7c3aed', // Solid purple
+    '#ea580c', // Solid orange
+  ];
+
   return (
     <section 
-      className="relative overflow-hidden" 
-      style={{ height: '400px' }}
+      style={{ 
+        height: '350px',
+        backgroundColor: backgrounds[currentSlide],
+        position: 'relative',
+        overflow: 'hidden'
+      }}
     >
-      {/* Background Image with Enhanced Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center transition-all duration-1000"
-        style={{ backgroundImage: `url(${currentBanner.image})` }}
-      >
-        <div className={`absolute inset-0 bg-gradient-to-r ${currentBanner.gradient}`} />
-        {/* Additional overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/20" />
-      </div>
-
-      {/* Professional Content Layout */}
-      <div className="relative h-full container mx-auto px-4 flex items-center">
-        <div className="max-w-3xl text-white">
-          {/* Promotional Badge */}
+      {/* Content */}
+      <div style={{
+        height: '100%',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 1rem',
+        display: 'flex',
+        alignItems: 'center'
+      }}>
+        <div style={{ maxWidth: '800px' }}>
+          {/* Special Badge */}
           {currentSlide === 0 && (
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <span className="animate-pulse">🎉</span>
-              <span>Limited Time Offer - Ends Soon!</span>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              backgroundColor: '#ef4444',
+              color: 'white',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '9999px',
+              fontSize: '0.875rem',
+              fontWeight: 'bold',
+              marginBottom: '1.5rem'
+            }}>
+              <span>🎉</span>
+              <span>LIMITED TIME OFFER!</span>
             </div>
           )}
 
-          {/* Main Title with Animation */}
-          <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+          {/* Title */}
+          <h1 style={{
+            fontSize: '3rem',
+            fontWeight: 'bold',
+            marginBottom: '1.5rem',
+            color: 'white',
+            lineHeight: '1.2'
+          }}>
             {currentBanner.title}
           </h1>
           
-          {/* Subtitle with Professional Styling */}
-          <p className="text-lg md:text-xl mb-6 opacity-95 leading-relaxed max-w-2xl">
+          {/* Subtitle */}
+          <p style={{
+            fontSize: '1.25rem',
+            marginBottom: '2rem',
+            color: 'white',
+            lineHeight: '1.75',
+            maxWidth: '700px'
+          }}>
             {currentBanner.subtitle}
           </p>
 
-          {/* Enhanced CTA Section */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+          {/* CTA Buttons */}
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
             <a
               href={currentBanner.buttonLink}
-              className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                backgroundColor: 'white',
+                color: '#1f2937',
+                padding: '1rem 2rem',
+                borderRadius: '0.5rem',
+                fontWeight: 'bold',
+                fontSize: '1.125rem',
+                textDecoration: 'none'
+              }}
             >
               {currentBanner.buttonText}
-              <span className="ml-2">→</span>
+              <span>→</span>
             </a>
             
-            {/* Secondary CTA for some slides */}
-            {(currentSlide === 0 || currentSlide === 1) && (
-              <a
-                href="/courses"
-                className="inline-flex items-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-900 transition-all duration-200"
-              >
-                View All Courses
-              </a>
-            )}
+            <a
+              href="/courses"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                border: '2px solid white',
+                color: 'white',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '0.5rem',
+                fontWeight: '600',
+                textDecoration: 'none'
+              }}
+            >
+              View All Courses
+            </a>
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex items-center gap-6 text-sm opacity-90">
-            <div className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.875rem', color: 'white' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Users className="h-5 w-5" />
               <span>50,000+ Students</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Award className="h-4 w-4" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Award className="h-5 w-5" />
               <span>95% Success Rate</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Clock className="h-5 w-5" />
               <span>24/7 Support</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Professional Navigation Arrows */}
+      {/* Navigation Arrows */}
       <button
         onClick={goToPrevious}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full backdrop-blur-sm transition-all duration-200 group"
+        style={{
+          position: 'absolute',
+          left: '1rem',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          backgroundColor: 'rgba(255,255,255,0.3)',
+          padding: '0.75rem',
+          borderRadius: '9999px',
+          border: 'none',
+          cursor: 'pointer'
+        }}
       >
-        <ChevronLeft className="h-6 w-6 text-white group-hover:scale-110 transition-transform" />
+        <ChevronLeft className="h-6 w-6 text-white" />
       </button>
       <button
         onClick={goToNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full backdrop-blur-sm transition-all duration-200 group"
+        style={{
+          position: 'absolute',
+          right: '1rem',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          backgroundColor: 'rgba(255,255,255,0.3)',
+          padding: '0.75rem',
+          borderRadius: '9999px',
+          border: 'none',
+          cursor: 'pointer'
+        }}
       >
-        <ChevronRight className="h-6 w-6 text-white group-hover:scale-110 transition-transform" />
+        <ChevronRight className="h-6 w-6 text-white" />
       </button>
 
-      {/* Enhanced Dots Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
+      {/* Dots Indicator */}
+      <div style={{
+        position: 'absolute',
+        bottom: '1.5rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        gap: '0.75rem'
+      }}>
         {BANNER_SLIDES.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide 
-                ? 'w-8 bg-white shadow-lg' 
-                : 'w-3 bg-white/50 hover:bg-white/75'
-            }`}
+            style={{
+              height: '12px',
+              width: index === currentSlide ? '40px' : '12px',
+              backgroundColor: index === currentSlide ? 'white' : 'rgba(255,255,255,0.5)',
+              borderRadius: '9999px',
+              border: 'none',
+              cursor: 'pointer'
+            }}
           />
         ))}
       </div>
 
-      {/* Promotional Timer (for special offers) */}
+      {/* Countdown Timer */}
       {currentSlide === 0 && (
-        <div className="absolute bottom-6 right-6 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg text-white text-sm">
-          <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-red-300" />
-            <span>Offer ends in: <strong>5 days</strong></span>
+        <div style={{
+          position: 'absolute',
+          bottom: '1.5rem',
+          right: '1.5rem',
+          backgroundColor: '#dc2626',
+          color: 'white',
+          padding: '0.5rem 1rem',
+          borderRadius: '0.5rem',
+          fontSize: '0.875rem',
+          fontWeight: 'bold'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Clock className="h-4 w-4" />
+            <span>Offer ends in: 4 days!</span>
           </div>
         </div>
       )}

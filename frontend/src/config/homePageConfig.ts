@@ -58,70 +58,50 @@ export interface SuccessStory {
 // ==========================================
 
 export const BANNER_SLIDES: BannerSlide[] = [
-  // Diwali Special Offer Banner
   {
     id: 1,
     title: '🪔 Diwali Special Offer!',
     subtitle: 'Light up your future with UPTO 80% OFF on all courses - Limited Time Only!',
-    image: 'https://images.unsplash.com/photo-1606278702839-fce4d16c5b24?w=1200&h=500&fit=crop',
+    image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=1920&h=800&fit=crop&crop=center',
     buttonText: 'Grab Offer Now',
     buttonLink: '/diwali-offer',
-    gradient: 'from-black/60 to-black/40'
+    gradient: 'from-orange-500 to-red-600'
   },
-  
-  // JEE Foundation Promotional Banner
   {
     id: 2,
     title: 'JEE 2026 Foundation',
     subtitle: 'Start Early, Succeed Big! Get 70% OFF on JEE Foundation Courses + Free Test Series',
-    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=1200&h=500&fit=crop',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&h=800&fit=crop&crop=center',
     buttonText: 'Enroll at ₹999',
     buttonLink: '/courses/jee-foundation',
-    gradient: 'from-black/60 to-black/40'
+    gradient: 'from-blue-600 to-indigo-700'
   },
-
-  // NEET Crash Course Banner
   {
     id: 3,
     title: 'NEET 2025 Crash Course',
     subtitle: 'Last-minute preparation by Top Faculty - Only ₹1,999 (Was ₹4,999)',
-    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&h=500&fit=crop',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=1920&h=800&fit=crop&crop=center',
     buttonText: 'Join Now - 60% OFF',
     buttonLink: '/courses/neet-crash',
-    gradient: 'from-black/60 to-black/40'
+    gradient: 'from-green-600 to-emerald-700'
   },
-
-  // Free Trial Banner
   {
     id: 4,
     title: 'Start Your Journey FREE!',
     subtitle: 'Experience quality education - Get 7-day free trial + Free doubt solving',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=500&fit=crop',
+    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1920&h=800&fit=crop&crop=center',
     buttonText: 'Start Free Trial',
     buttonLink: '/free-trial',
-    gradient: 'from-black/60 to-black/40'
+    gradient: 'from-purple-600 to-pink-600'
   },
-
-  // Scholarship Banner
   {
     id: 5,
     title: '🏆 Scholarship Test',
     subtitle: 'Win up to 100% Scholarship! Register for Classtopper Scholarship Test 2025',
-    image: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=1200&h=500&fit=crop',
+    image: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=1920&h=800&fit=crop&crop=center',
     buttonText: 'Register Free',
     buttonLink: '/scholarship-test',
-    gradient: 'from-black/60 to-black/40'
-  },
-
-  // Board Exam Excellence Banner
-  {
-    id: 6,
-    title: 'Board Exam Excellence',
-    subtitle: 'Score 95%+ in Class 10th & 12th Boards - Expert Faculty & Proven Methods',
-    image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1200&h=500&fit=crop',
-    buttonText: 'View Programs',
-    buttonLink: '/courses?category=boards',
-    gradient: 'from-black/60 to-black/40'
+    gradient: 'from-yellow-600 to-orange-600'
   },
 ];
 
