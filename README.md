@@ -4,10 +4,11 @@
 
 ## 📁 Project Structure
 <img width="1920" height="1080" alt="Screenshot (17)" src="https://github.com/user-attachments/assets/d991ac62-208d-4a09-bbdc-40a4984852d9" />
-
+<img width="1920" height="1080" alt="Screenshot (22)" src="https://github.com/user-attachments/assets/4e3fdcc6-c9bd-4216-bb0c-d991b094f8bb" />
 ```
 eduplatform/
 ├── frontend/                 # React application
+
 │   ├── src/
 │   │   ├── components/      # Reusable UI components
 │   │   ├── pages/          # Page components
